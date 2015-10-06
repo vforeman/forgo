@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 <dom-module id="settings-page">
   <template>
@@ -18,6 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>Hello from <span>{{elementName}}</span></div>
+    <firebase-collection id='ref'
+      location='{{location}}'></firebase-collection>
   </template>
   <script>
   (function() {
@@ -33,6 +36,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        //@TODO add computed property to location so that it references the location of this user's userData firebase location,
+        //probably by 'location/users/:uid'
+        location: {type: String, value: 'settings-page', notify: true}
         elementName: {type: String, value: 'settings-page', notify: true}
       }
     });
