@@ -12,32 +12,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
-
-<dom-module id="settings-toolbar-tab">
+<dom-module id="logout-toolbar-tab">
   <template>
     <style>
       :host {
         display: block;
       }
-
     </style>
-    <paper-icon-button icon="settings" disabled='[[disabled]]'></paper-icon-button>
+    <paper-icon-button icon="power-settings-new" disabled='[[disabled]]'></paper-icon-button>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'settings-toolbar-tab',
+      is: 'logout-toolbar-tab',
       created: function(){
       },
       ready: function(){
       },
       behaviors: [],
       listeners:{
+        'click': '_attemptLogout'
       },
       properties: {
-        elementName: {type: String, value: 'settings-toolbar-tab', notify: true}
+        logout: {type: Object},
+        // disabled: {type: Boolean},
+        elementName: {type: String, value: 'logout-toolbar-tab', notify: true}
+      },
+      _attemptLogout: function(e){
+        console.log('attempting to logout');
+        console.log(this.logout)
+        this.logout();
       }
     });
   })();

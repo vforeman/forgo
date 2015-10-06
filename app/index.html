@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="PSK">
+  <meta name="application-name" content="FORGO">
   <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
 
   <!-- Add to homescreen for Safari on iOS -->
@@ -96,6 +96,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span class="flex"></span>
 
           <!-- Toolbar icons -->
+          <a data-route="settings" href="/settings">
+            <settings-toolbar-tab disabled='{{!isLoggedIn}}'></settings-toolbar-tab>
+          </a>
+          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
           <paper-icon-button icon="refresh" disabled='{{!isLoggedIn}}'></paper-icon-button>
           <paper-icon-button icon="search" disabled='{{!isLoggedIn}}'></paper-icon-button>
 
@@ -115,7 +119,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-            <landing-page data-route='home' is-logged-in='{{isLoggedIn}}'></landing-page>
+            <landing-page id='landingPage' data-route='home' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
+
+            <settings-page data-route='settings'></settings-page>
 
             <section data-route="users">
               <paper-material elevation="1">
