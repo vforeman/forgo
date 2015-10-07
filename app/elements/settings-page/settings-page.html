@@ -9,7 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
@@ -19,13 +22,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      paper-input{
+        margin: 0px 8px;
+      }
+      paper-fab.unSaved{
+        background: var(--accent-color);
+
+      }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
-    <firebase-collection id='coll'
-      location='[[location]]'></firebase-collection>
+    <paper-fab id='fab' icon='{{icon}}' on-click='_saveFormData'></paper-fab>
     <firebase-document id='doc'
       location='[[location]]'
       data='{{userRef}}'></firebase-document>
+
+    <form is="iron-form" id="form" method="" action="">
+      <div class="layout horizontal">
+        <paper-input name='first' label="first" value='{{userRef.name.first}}' class='flex-6'></paper-input>
+        <paper-input name='last' label="last" value='{{userRef.name.last}}' class='flex-6'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='email' label="email" value='{{userRef.contact.email}}' class='flex-6'></paper-input>
+        <paper-input name='phone' label="phone" value='{{userRef.contact.phone}}' class='flex-6'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='street' label="street" class='flex-6' value='{{userRef.address.street}}'></paper-input>
+        <paper-input name='street2' label="street2" class='flex-6' value='{{userRef.address.street2}}'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='city' label="city" class='flex-4' value='{{userRef.address.city}}'></paper-input>
+        <paper-input name='state' label="state" class='flex-4' value='{{userRef.address.state}}'></paper-input>
+        <paper-input name='zip' label="zip" class='flex-4' value='{{userRef.address.zip}}'></paper-input>
+      </div>
+    </form>
   </template>
   <script>
   (function() {
@@ -39,14 +67,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       behaviors: [],
       listeners:{
+        'change':'toggleSave'
       },
       properties: {
-        //@TODO add computed property to location so that it references the location of this user's userData firebase location,
-        //probably by 'location/users/:uid'
-        userRef: {type: Object, notify:true, observer: '_userRefChanged'},
+        isSaved: {type: Boolean, value:true, notify:true},
+        icon: {type: String, value:'cloud-done', notify:true, computed: '_icon(isSaved)'},
+        userRef: {type: Object, observer: '_userRefChanged'},
         user: {type: Object, notify:true, observer: '_userChanged'},
         location: {type: String, notify: true, computed: '_location(user)'},
         elementName: {type: String, value: 'settings-page', notify: true}
+      },
+      toggleSave: function(e){
+        console.log(e.type)
+        this.isSaved = false;
+        this.toggleClass('unSaved', true,this.$.fab)
+      },
+      _saveFormData: function(e){
+        var formData = this.$.form.serialize();
+        console.log(formData)
+        this.$.doc.query.update({
+          'name/first': formData.first,
+          'name/last': formData.last,
+          'contact/phone': formData.phone,
+          'contact/email': formData.email,
+          'address/street': formData.street,
+          'address/street2': formData.street2,
+          'address/city': formData.city,
+          'address/state': formData.state,
+          'address/zip': formData.zip,
+        });
+        this.toggleClass('unSaved', false, this.$.fab)
+      },
+      _icon: function(isSaved){
+        return isSaved ? 'cloud-done' : 'cloud-upload';
       },
       _location: function(user){
         var loc = 'https://forgo.firebaseio.com/users/' + user.uid;
@@ -59,10 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _userRefChanged: function(userRef){
         console.log('userRef',userRef)
         if(this.userRef === null){
-          this.$.doc.query.set({
-            user1: 'user1',
-            user2: 'user2'
-          });
+          
         }
       }
     });
