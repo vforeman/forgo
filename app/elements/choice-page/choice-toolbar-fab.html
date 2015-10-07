@@ -9,15 +9,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="choice-toolbar-fab">
   <template>
     <style>
       :host {
         display: block;
+        margin-top: 64px;
+      }
+      paper-icon-button{
+        --iron-icon-height: 64px;
+        --iron-icon-width: 64px;
+        --paper-icon-button:{
+          background: var(--accent-color);
+          border-radius: 25px;
+        }
+      }
+      paper-material{
+        border-radius: 25px;
       }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+    <paper-material elevation="3">
+      <paper-icon-button icon="communication:call-split"></paper-icon-button>
+    </paper-material>
   </template>
   <script>
   (function() {
