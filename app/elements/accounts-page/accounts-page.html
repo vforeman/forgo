@@ -14,9 +14,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="basic-account.html">
+<link rel="import" href="charity-account.html">
+<link rel="import" href="splurge-account.html">
 
 <dom-module id="accounts-page">
   <template>
@@ -24,17 +27,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      paper-icon-button{
+        --iron-icon-height: 64px;
+        --iron-icon-width: 64px;
+      }
+      paper-icon-button.iron-selected{
+        color: var(--accent-color);
+      }
     </style>
-    <div class="layout horizontal justified">
-      <paper-fab icon="maps:local-atm"></paper-fab>
-      <paper-fab icon="maps:local-mall"></paper-fab>
-      <paper-fab icon="image:healing"></paper-fab>
-    </div>
+    <iron-selector selected='{{accountType}}' class="layout horizontal justified">
+      <paper-icon-button icon="maps:local-atm"></paper-icon-button>
+      <paper-icon-button icon="maps:local-mall"></paper-icon-button>
+      <paper-icon-button icon="image:healing"></paper-icon-button>
+    </iron-selector>
 
     <iron-pages selected="{{accountType}}">
-      <section></section>
-      <section></section>
-      <section></section>
+      <basic-account></basic-account>
+      <charity-account></charity-account>
+      <splurge-account></splurge-account>
     </iron-pages>
   </template>
   <script>
