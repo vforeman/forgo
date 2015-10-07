@@ -88,10 +88,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel> -->
 
       <!-- Main Area -->
-      <paper-scroll-header-panel main condenses keep-condensed-header>
+      <paper-scroll-header-panel main fixed>
 
         <!-- Main Toolbar -->
-        <paper-toolbar id="mainToolbar" class="tall">
+        <paper-toolbar id="mainToolbar" class="medium">
+          <span class="flex"></span>
+          <div class="app-name">FORGO</div>
           <span class="flex"></span>
 
           <!-- Toolbar icons -->
@@ -101,18 +103,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="settings" href="/settings">
             <settings-toolbar-tab disabled='{{!isLoggedIn}}'></settings-toolbar-tab>
           </a>
-          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
 
           <span class="flex"></span>
+          <a data-route="choice" href="/choice">
+            <choice-toolbar-fab></choice-toolbar-fab>
+          </a>
+
+          <span class="flex"></span>
+          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
           <!-- Application name -->
-          <div class="middle middle-container center horizontal layout">
-            <div class="app-name">FORGO</div>
-          </div>
+          <!-- <div class="middle middle-container center horizontal layout">
+          </div> -->
 
           <!-- Application sub title -->
-          <div class="bottom bottom-container center horizontal layout">
+          <!-- <div class="bottom bottom-container center horizontal layout">
             <div class="bottom-title paper-font-subhead">The future of the web today</div>
-          </div>
+          </div> -->
 
         </paper-toolbar>
 
@@ -125,6 +131,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <settings-page data-route='settings' user='{{user}}'></settings-page>
 
             <accounts-page data-route='accounts'></accounts-page>
+
+            <choice-page data-route='choice'></choice-page>
 
             <section data-route="users">
               <paper-material elevation="1">
