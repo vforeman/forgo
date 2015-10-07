@@ -119,9 +119,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-            <landing-page id='landingPage' data-route='home' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
+            <landing-page id='landingPage' data-route='home' user='{{user}}' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
 
-            <settings-page data-route='settings'></settings-page>
+            <settings-page data-route='settings' user='{{user}}'></settings-page>
 
             <section data-route="users">
               <paper-material elevation="1">

@@ -75,6 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _onLoginSuccess: function(e){
         console.log('logged in successfully',e.detail.user);
+        app['userData.uid'] = e.detail.user.uid;
         this.set('isLoggedIn',true);
       },
       _attemptLogout: function(e){

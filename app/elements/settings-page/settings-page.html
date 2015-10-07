@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 <dom-module id="settings-page">
@@ -19,8 +21,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>Hello from <span>{{elementName}}</span></div>
-    <firebase-collection id='ref'
-      location='{{location}}'></firebase-collection>
+    <firebase-collection id='coll'
+      location='[[location]]'></firebase-collection>
+    <firebase-document id='doc'
+      location='[[location]]'
+      data='{{userRef}}'></firebase-document>
   </template>
   <script>
   (function() {
@@ -38,8 +43,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         //@TODO add computed property to location so that it references the location of this user's userData firebase location,
         //probably by 'location/users/:uid'
-        location: {type: String, value: 'settings-page', notify: true}
+        userRef: {type: Object, notify:true, observer: '_userRefChanged'},
+        user: {type: Object, notify:true, observer: '_userChanged'},
+        location: {type: String, notify: true, computed: '_location(user)'},
         elementName: {type: String, value: 'settings-page', notify: true}
+      },
+      _location: function(user){
+        var loc = 'https://forgo.firebaseio.com/users/' + user.uid;
+        console.log(loc);
+        return loc;
+      },
+      _userChanged: function(user){
+        console.log('user',user);
+      },
+      _userRefChanged: function(userRef){
+        console.log('userRef',userRef)
+        if(this.userRef === null){
+          this.$.doc.query.set({
+            user1: 'user1',
+            user2: 'user2'
+          });
+        }
       }
     });
   })();
