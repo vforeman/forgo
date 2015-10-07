@@ -1,0 +1,121 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+
+<dom-module id="settings-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-input{
+        margin: 0px 8px;
+      }
+      paper-fab.unSaved{
+        background: var(--accent-color);
+
+      }
+    </style>
+    <paper-fab id='fab' icon='{{icon}}' on-click='_saveFormData'></paper-fab>
+    <firebase-document id='doc'
+      location='[[location]]'
+      data='{{userRef}}'></firebase-document>
+
+    <form is="iron-form" id="form" method="" action="">
+      <div class="layout horizontal">
+        <paper-input name='first' label="first" value='{{userRef.name.first}}' class='flex-6'></paper-input>
+        <paper-input name='last' label="last" value='{{userRef.name.last}}' class='flex-6'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='email' label="email" value='{{userRef.contact.email}}' class='flex-6'></paper-input>
+        <paper-input name='phone' label="phone" value='{{userRef.contact.phone}}' class='flex-6'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='street' label="street" class='flex-6' value='{{userRef.address.street}}'></paper-input>
+        <paper-input name='street2' label="street2" class='flex-6' value='{{userRef.address.street2}}'></paper-input>
+      </div>
+      <div class="layout horizontal">
+        <paper-input name='city' label="city" class='flex-4' value='{{userRef.address.city}}'></paper-input>
+        <paper-input name='state' label="state" class='flex-4' value='{{userRef.address.state}}'></paper-input>
+        <paper-input name='zip' label="zip" class='flex-4' value='{{userRef.address.zip}}'></paper-input>
+      </div>
+    </form>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'settings-page',
+      created: function(){
+      },
+      ready: function(){
+      },
+      behaviors: [],
+      listeners:{
+        'change':'toggleSave'
+      },
+      properties: {
+        isSaved: {type: Boolean, value:true, notify:true},
+        icon: {type: String, value:'cloud-done', notify:true, computed: '_icon(isSaved)'},
+        userRef: {type: Object, observer: '_userRefChanged'},
+        user: {type: Object, notify:true, observer: '_userChanged'},
+        location: {type: String, notify: true, computed: '_location(user)'},
+        elementName: {type: String, value: 'settings-page', notify: true}
+      },
+      toggleSave: function(e){
+        console.log(e.type)
+        this.isSaved = false;
+        this.toggleClass('unSaved', true,this.$.fab)
+      },
+      _saveFormData: function(e){
+        var formData = this.$.form.serialize();
+        console.log(formData)
+        this.$.doc.query.update({
+          'name/first': formData.first,
+          'name/last': formData.last,
+          'contact/phone': formData.phone,
+          'contact/email': formData.email,
+          'address/street': formData.street,
+          'address/street2': formData.street2,
+          'address/city': formData.city,
+          'address/state': formData.state,
+          'address/zip': formData.zip,
+        });
+        this.toggleClass('unSaved', false, this.$.fab)
+      },
+      _icon: function(isSaved){
+        return isSaved ? 'cloud-done' : 'cloud-upload';
+      },
+      _location: function(user){
+        var loc = 'https://forgo.firebaseio.com/users/' + user.uid;
+        console.log(loc);
+        return loc;
+      },
+      _userChanged: function(user){
+        console.log('user',user);
+      },
+      _userRefChanged: function(userRef){
+        console.log('userRef',userRef)
+        if(this.userRef === null){
+          
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

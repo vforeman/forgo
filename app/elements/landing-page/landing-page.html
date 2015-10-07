@@ -31,7 +31,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       location='https://forgo.firebaseio.com/'
       provider='password'
       user='{{user}}'
-      on-login='_onLoginSuccess'></firebase-auth>
+      on-login='_onLoginSuccess'
+      on-logout='_onLogoutSuccess'></firebase-auth>
 
     <paper-material elevation="1" class='layout vertical inputContainer'>
       <paper-input id='email' label="email" value='{{email}}'></paper-input>
@@ -49,22 +50,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       created: function(){
       },
       ready: function(){
+        this.logout = this._attemptLogout.bind(this);
       },
       behaviors: [],
       listeners:{
       },
       properties: {
+        logout: {type: Object, notify: true},
         email: {type: String},
         password: {type: String},
         credentials: {type: Object, computed: '_credentials(email, password)'},
         user: {type: Object, notify: true},
-        isLoggedIn: {type: Boolean, value: false, notify: true},
+        isLoggedIn: {type: Boolean, value: false, notify: true, reflectToAttribute: true},
         elementName: {type: String, value: 'landing-page', notify: true}
-      },
-      _onLoginSuccess: function(e){
-        console.log('logged in successfully',e.detail.user);
-        // this.isLoggedIn = true;
-        this.set('isLoggedIn',true);
       },
       _credentials: function(email, password){
         return {
@@ -74,6 +72,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _attemptLogin: function(e){
         this.$.auth.login(this.credentials);
+      },
+      _onLoginSuccess: function(e){
+        console.log('logged in successfully',e.detail.user);
+        app['userData.uid'] = e.detail.user.uid;
+        this.set('isLoggedIn',true);
+      },
+      _attemptLogout: function(e){
+        this.$.auth.logout();
+      },
+      _onLogoutSuccess: function(e){
+        console.log('you have logged out');
+        this.set('isLoggedIn', false);
       }
     });
   })();
