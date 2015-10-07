@@ -14,6 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
@@ -43,7 +44,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-fab id='fab' icon='{{icon}}' on-click='_saveFormData'></paper-fab>
     <form is="iron-form" id="form" method="" action="">
       <div class='layout horizontal'>
-        <paper-icon-button title='sync your app data with your bank account data' icon="notification:sync" class='self-center' on-click='_pullC1Data'></paper-icon-button>
+        <paper-tooltip for'cidBtn' position='bottom'>sync your app data with your bank account data</paper-tooltip>
+        <paper-icon-button id='cidBtn'  icon="notification:sync" class='self-center' on-click='_pullC1Data'></paper-icon-button>
         <paper-input id='customerid' name='customerid' label="Capital One Customer ID" class='flex-12' value='{{userRef.customerid}}' on-change='_onCidChange'></paper-input>
       </div>
       <div class="layout horizontal">
