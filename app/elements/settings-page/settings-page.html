@@ -10,8 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/notification-icons.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
@@ -30,30 +33,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
     </style>
-    <paper-fab id='fab' icon='{{icon}}' on-click='_saveFormData'></paper-fab>
     <firebase-document id='doc'
       location='[[location]]'
       data='{{userRef}}'></firebase-document>
-
+    <iron-ajax id='ajax'
+      url="http://api.reimaginebanking.com/customers/%cid?key=6fb9265d0d9ba45104e7dccd7bfa5000"
+      handle-as="json"
+      on-response="handleResponse"></iron-ajax>
+    <paper-fab id='fab' icon='{{icon}}' on-click='_saveFormData'></paper-fab>
     <form is="iron-form" id="form" method="" action="">
-      <div class="layout horizontal">
-        <paper-input name='first' label="first" value='{{userRef.name.first}}' class='flex-6'></paper-input>
-        <paper-input name='last' label="last" value='{{userRef.name.last}}' class='flex-6'></paper-input>
+      <div class='layout horizontal'>
+        <paper-icon-button title='sync your app data with your bank account data' icon="notification:sync" class='self-center' on-click='_pullC1Data'></paper-icon-button>
+        <paper-input id='customerid' name='customerid' label="Capital One Customer ID" class='flex-12' value='{{userRef.customerid}}' on-change='_onCidChange'></paper-input>
       </div>
       <div class="layout horizontal">
-        <paper-input name='email' label="email" value='{{userRef.contact.email}}' class='flex-6'></paper-input>
-        <paper-input name='phone' label="phone" value='{{userRef.contact.phone}}' class='flex-6'></paper-input>
+        <paper-input id='first' name='first' label="first" value='{{userRef.name.first}}' class='flex-6'></paper-input>
+        <paper-input id='last' name='last' label="last" value='{{userRef.name.last}}' class='flex-6'></paper-input>
       </div>
       <div class="layout horizontal">
-        <paper-input name='street' label="street" class='flex-6' value='{{userRef.address.street}}'></paper-input>
-        <paper-input name='street2' label="street2" class='flex-6' value='{{userRef.address.street2}}'></paper-input>
+        <paper-input id='email' name='email' label="email" value='{{userRef.contact.email}}' class='flex-6'></paper-input>
+        <paper-input id='phone' name='phone' label="phone" value='{{userRef.contact.phone}}' class='flex-6'></paper-input>
       </div>
       <div class="layout horizontal">
-        <paper-input name='city' label="city" class='flex-4' value='{{userRef.address.city}}'></paper-input>
-        <paper-input name='state' label="state" class='flex-4' value='{{userRef.address.state}}'></paper-input>
-        <paper-input name='zip' label="zip" class='flex-4' value='{{userRef.address.zip}}'></paper-input>
+        <paper-input id='street' name='street' label="street" class='flex-6' value='{{userRef.address.street}}'></paper-input>
+        <paper-input id='street2' name='street2' label="street2" class='flex-6' value='{{userRef.address.street2}}'></paper-input>
       </div>
-        <paper-input name='customerid' label="Capital One Customer ID" class='flex-12' value='{{userRef.customerid}}'></paper-input>
+      <div class="layout horizontal">
+        <paper-input id='city' name='city' label="city" class='flex-4' value='{{userRef.address.city}}'></paper-input>
+        <paper-input id='state' name='state' label="state" class='flex-4' value='{{userRef.address.state}}'></paper-input>
+        <paper-input id='zip' name='zip' label="zip" class='flex-4' value='{{userRef.address.zip}}'></paper-input>
+      </div>
 
     </form>
   </template>
@@ -80,9 +89,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         elementName: {type: String, value: 'settings-page', notify: true}
       },
       toggleSave: function(e){
-        console.log(e.type)
         this.isSaved = false;
         this.toggleClass('unSaved', true,this.$.fab)
+      },
+      handleResponse: function(e){
+        console.log(e.detail.response)
+        var res = e.detail.response;
+
+        this.$.first.value = res.first_name;
+        this.$.last.value = res.last_name;
+        this.$.city.value = res.address.city;
+        this.$.state.value = res.address.state;
+        this.$.street.value = res.address.street_number +' ' + res.address.street_name;
+        this.$.zip.value = res.address.zip;
+
+      },
+      _pullC1Data: function(e){
+        var cid = this.userRef.customerid;
+        this.$.ajax.url = 'http://api.reimaginebanking.com/customers/' + cid + '?key=6fb9265d0d9ba45104e7dccd7bfa5000';
+        console.log(this.$.ajax.url)
+        this.$.ajax.generateRequest();
+        this.toggleSave();
       },
       _saveFormData: function(e){
         var formData = this.$.form.serialize();

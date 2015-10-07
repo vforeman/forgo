@@ -37,13 +37,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       properties: {
         logout: {type: Object},
-        // disabled: {type: Boolean},
         elementName: {type: String, value: 'logout-toolbar-tab', notify: true}
       },
       _attemptLogout: function(e){
         console.log('attempting to logout');
         console.log(this.logout)
         this.logout();
+        app.route = 'home';
       }
     });
   })();
