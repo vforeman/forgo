@@ -53,6 +53,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-input name='state' label="state" class='flex-4' value='{{userRef.address.state}}'></paper-input>
         <paper-input name='zip' label="zip" class='flex-4' value='{{userRef.address.zip}}'></paper-input>
       </div>
+        <paper-input name='customerid' label="Capital One Customer ID" class='flex-12' value='{{userRef.customerid}}'></paper-input>
+
     </form>
   </template>
   <script>
@@ -95,6 +97,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'address/city': formData.city,
           'address/state': formData.state,
           'address/zip': formData.zip,
+          'customerid': formData.customerid
         });
         this.toggleClass('unSaved', false, this.$.fab)
       },
@@ -112,7 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _userRefChanged: function(userRef){
         console.log('userRef',userRef)
         if(this.userRef === null){
-          
+
         }
       }
     });
