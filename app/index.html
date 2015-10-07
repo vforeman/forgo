@@ -104,6 +104,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
 
           <span class="flex"></span>
+          <a data-route="choice" href="/choice">
+            <choice-toolbar-fab></choice-toolbar-fab>
+          </a>
+
+          <span class="flex"></span>
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-name">FORGO</div>
@@ -125,6 +130,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <settings-page data-route='settings' user='{{user}}'></settings-page>
 
             <accounts-page data-route='accounts'></accounts-page>
+
+            <choice-page data-route='choice'></choice-page>
 
             <section data-route="users">
               <paper-material elevation="1">
