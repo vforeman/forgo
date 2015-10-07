@@ -1,0 +1,69 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="basic-account.html">
+<link rel="import" href="charity-account.html">
+<link rel="import" href="splurge-account.html">
+
+<dom-module id="accounts-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-icon-button{
+        --iron-icon-height: 64px;
+        --iron-icon-width: 64px;
+      }
+      paper-icon-button.iron-selected{
+        color: var(--accent-color);
+      }
+    </style>
+    <iron-selector selected='{{accountType}}' class="layout horizontal justified">
+      <paper-icon-button icon="maps:local-atm"></paper-icon-button>
+      <paper-icon-button icon="maps:local-mall"></paper-icon-button>
+      <paper-icon-button icon="image:healing"></paper-icon-button>
+    </iron-selector>
+
+    <iron-pages selected="{{accountType}}">
+      <basic-account></basic-account>
+      <charity-account></charity-account>
+      <splurge-account></splurge-account>
+    </iron-pages>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'accounts-page',
+      created: function(){
+      },
+      ready: function(){
+      },
+      behaviors: [],
+      listeners:{
+      },
+      properties: {
+        elementName: {type: String, value: 'accounts-page', notify: true}
+      }
+    });
+  })();
+  </script>
+</dom-module>

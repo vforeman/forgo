@@ -95,11 +95,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span class="flex"></span>
 
           <!-- Toolbar icons -->
+          <a data-route="accounts" href="/accounts">
+            <accounts-toolbar-tab disabled='{{!isLoggedIn}}'></accounts-toolbar-tab>
+          </a>
           <a data-route="settings" href="/settings">
             <settings-toolbar-tab disabled='{{!isLoggedIn}}'></settings-toolbar-tab>
           </a>
           <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
 
+          <span class="flex"></span>
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-name">FORGO</div>
@@ -119,6 +123,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <landing-page id='landingPage' data-route='home' user='{{user}}' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
 
             <settings-page data-route='settings' user='{{user}}'></settings-page>
+
+            <accounts-page data-route='accounts'></accounts-page>
 
             <section data-route="users">
               <paper-material elevation="1">
