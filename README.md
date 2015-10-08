@@ -22,7 +22,16 @@
 
 ### Charity API
 * [Captial One 'Giving Site'](https://www.capitalone.com/give/)
-![](docs/giving-site.png)
+
+> charity_id is the charity's tax identification number
+
+| /give/ | /give/charity-search/?charity_id=[charityid] | /give/charity-details/?charity_id=[charityid] |
+| ----------- | ---- | ------- | --------------- |
+| ![](docs/giving-site.png )  |	![](docs/charity-search.png ) 	 | ![](docs/donate-to-charity.png ) |
+
+<!-- ![](docs/giving-site.png ) -->
+
+
     * The query string for the search bar can be use like a rest server
 ```
 https://www.capitalone.com/give/charity-search?keywords=%s&zipCode=ZIP&basic.x=0&basic.y=0&topic=
