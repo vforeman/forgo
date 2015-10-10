@@ -128,9 +128,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <landing-page id='landingPage' data-route='home' user='{{user}}' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
 
-            <settings-page data-route='settings' user='{{user}}'></settings-page>
+            <settings-page data-route='settings' user='{{user}}' user-ref='{{userRef}}'></settings-page>
 
-            <accounts-page data-route='accounts'></accounts-page>
+            <accounts-page data-route='accounts' user='[[userRef]]'></accounts-page>
 
             <choice-page data-route='choice'></choice-page>
 

@@ -85,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         isSaved: {type: Boolean, value:true, notify:true},
         icon: {type: String, value:'cloud-done', notify:true, computed: '_icon(isSaved)'},
-        userRef: {type: Object, observer: '_userRefChanged'},
+        userRef: {type: Object, notify: true, observer: '_userRefChanged'},
         user: {type: Object, notify:true, observer: '_userChanged'},
         location: {type: String, notify: true, computed: '_location(user)'},
         elementName: {type: String, value: 'settings-page', notify: true}

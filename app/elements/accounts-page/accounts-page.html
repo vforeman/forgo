@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
@@ -28,23 +29,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
       paper-icon-button{
-        --iron-icon-height: 64px;
-        --iron-icon-width: 64px;
+        --iron-icon-height: 128px;
+        --iron-icon-width: 128px;
       }
-      paper-icon-button.iron-selected{
+      div.iron-selected{
         color: var(--accent-color);
       }
     </style>
+    <iron-ajax id='ajax'
+      url='{{endpoint}}'
+      handle-as='json'
+      on-response='handleResponse'></iron-ajax>
+
     <iron-selector selected='{{accountType}}' class="layout horizontal justified">
-      <paper-icon-button icon="maps:local-atm"></paper-icon-button>
-      <paper-icon-button icon="maps:local-mall"></paper-icon-button>
-      <paper-icon-button icon="image:healing"></paper-icon-button>
+      <div class='layout vertical justified'>
+        <paper-icon-button icon="maps:local-atm" class='self-center'></paper-icon-button>
+        <span class='self-center'>Basic Account</span>
+      </div>
+      <div class='layout vertical justified'>
+        <paper-icon-button icon="maps:local-mall" class='self-center'></paper-icon-button>
+        <span class='self-center'>Splurge Account</span>
+      </div>
+      <div class='layout vertical justified'>
+        <paper-icon-button icon="image:healing" class='self-center'></paper-icon-button>
+        <span class='self-center'>Charity Account</span>
+      </div>
     </iron-selector>
 
     <iron-pages selected="{{accountType}}">
-      <basic-account></basic-account>
-      <charity-account></charity-account>
-      <splurge-account></splurge-account>
+      <basic-account accounts='{{accounts}}' account-links='{{accountLinks}}'></basic-account>
+      <splurge-account accounts='{{accounts}}' account-links='{{accountLinks}}'></splurge-account>
+      <charity-account accounts='{{accounts}}' account-links='{{accountLinks}}'></charity-account>
     </iron-pages>
   </template>
   <script>
@@ -56,12 +71,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       created: function(){
       },
       ready: function(){
+        console.log('accounts page')
       },
       behaviors: [],
       listeners:{
       },
       properties: {
+        /**
+         * array containing keys which are the account_ids and a boolean about whether
+         * that account is linked to one of the apps accounts
+         * @type {Array}
+         */
+        accountLinks: {type: Array, notify: true, computed: '_accountLinks(accounts)'},
+        accounts: {type: Array, value:[], notify: true},
+        endpoint: {type: String, notify: true, computed: '_endpoint(user)', observer: '_endpointChanged'},
+        user: {type: Object, notify: true},
         elementName: {type: String, value: 'accounts-page', notify: true}
+      },
+      _accountLinks: function(accounts){
+        var ret = [];
+        accounts.forEach(function(acc){
+          ret.push({
+            id: acc._id,
+            isLinked: false,
+            linkedTo: ''
+          });
+        },this);
+        console.log(ret)
+        return ret;
+      },
+      _endpoint: function(user){
+        console.log(user)
+        var cid = user.customerid;
+        return 'http://api.reimaginebanking.com/customers/'+ cid +'/accounts?key=6fb9265d0d9ba45104e7dccd7bfa5000'
+      },
+      _endpointChanged: function(endpoint){
+        console.log(endpoint)
+        this.$.ajax.generateRequest();
+      },
+      handleResponse: function(e){
+        this.accounts = e.detail.response;
+        console.log('accounts' , this.accounts);
       }
     });
   })();
