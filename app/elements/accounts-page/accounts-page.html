@@ -16,6 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 <link rel="import" href="basic-account.html">
@@ -42,17 +43,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-response='handleResponse'></iron-ajax>
 
     <iron-selector selected='{{accountType}}' class="layout horizontal justified">
-      <div class='layout vertical justified'>
-        <paper-icon-button icon="maps:local-atm" class='self-center'></paper-icon-button>
+      <!-- BASIC ACCOUNT -->
+      <div class='layout horizontal'>
+        <paper-toggle-button class='self-center'></paper-toggle-button>
+        <div class='layout vertical justified'>
+          <paper-icon-button icon="maps:local-atm" class='self-center'></paper-icon-button>
         <span class='self-center'>Basic Account</span>
+        </div>
       </div>
-      <div class='layout vertical justified'>
-        <paper-icon-button icon="maps:local-mall" class='self-center'></paper-icon-button>
-        <span class='self-center'>Splurge Account</span>
+
+      <!-- SPLURGE ACCOUNT -->
+      <div class='layout horizontal'>
+        <paper-toggle-button class='self-center'></paper-toggle-button>
+        <div class='layout vertical justified'>
+          <paper-icon-button icon="maps:local-mall" class='self-center'></paper-icon-button>
+          <span class='self-center'>Splurge Account</span>
+        </div>
       </div>
-      <div class='layout vertical justified'>
-        <paper-icon-button icon="image:healing" class='self-center'></paper-icon-button>
-        <span class='self-center'>Charity Account</span>
+
+      <!-- CHARITY ACCOUNT -->
+      <div class='layout horizontal'>
+        <paper-toggle-button class='self-center'></paper-toggle-button>
+        <div class='layout vertical justified'>
+          <paper-icon-button icon="image:healing" class='self-center'></paper-icon-button>
+          <span class='self-center'>Charity Account</span>
+        </div>
       </div>
     </iron-selector>
 
