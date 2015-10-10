@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
 <dom-module id="choice-survey">
   <template>
@@ -16,8 +17,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .title{
+        font-weight: bold;
+      }
+      .question{
+        font-size: 1.5em;
+      }
+      .card{
+        margin: 16px 16px;
+      }
+      paper-slider{
+        width:100%;
+      }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+    <div class='layout horizontal'>
+      <span>Don't Buy</span>
+      <span class='flex'></span>
+      <span>Buy</span>
+    </div>
+    <paper-slider id='slider' class='' snaps min='0' max='4' value='2' ></paper-slider>
+    <paper-material>
+      <template is='dom-repeat' items='{{survey}}'>
+        <div class='layout horizontal card' index='{{_questionIndex(item)}}'>
+          <div class='layout vertical flex'>
+            <div class='title'>{{item.title}}</div>
+            <div class='question'>{{_itemize(item.question)}}</div>
+          </div>
+          <div class='self-end'>
+            NO <paper-toggle-button on-change='_updateSlider' yes-is-good='{{item.yesIsGood}}'></paper-toggle-button> YES
+          </div>
+        </div>
+      </template>
+    </paper-material>
+
   </template>
   <script>
   (function() {
@@ -30,10 +62,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-        
+
       },
       properties: {
+        survey: { type: Array,value: [
+          {
+            title:'Unnecessary Upgrades',
+            question:'Will buying %item significantly change your life for the better?',
+            yesIsGood: true
+          },
+          {
+            title:'Frivolous New Items',
+            question:'Will be the End of the World if you do not buy %item?',
+            yesIsGood: true
+          },
+          {
+            title:'Redundant Purchases',
+            question:'Do you already own something that could substitute for %item?',
+            yesIsGood: false
+          },
+          {
+            title:'Peer Pressure',
+            question:'Are you only buying %item to impress someone?',
+            yesIsGood: false
+          }
+        ], notify: true},
         elementName: { type: String,value: 'choice-survey', notify: true}
+      },
+      _updateSlider: function(e){
+        var checked = e.target.checked;
+        var yesIsGood = e.target.yesIsGood;
+        ;(checked && yesIsGood) || (!checked && !yesIsGood) ? this.$.slider.increment() : this.$.slider.decrement();
+      },
+      _itemize: function(question){
+        return question.replace('%item','ITEM')
+      },
+      _questionIndex: function(item){
+        return this.survey.indexOf(item);
       }
     });
   })();
