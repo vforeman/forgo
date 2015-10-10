@@ -9,6 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="choice-input.html">
 
 <dom-module id="choice-page">
   <template>
@@ -16,8 +19,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      paper-material{
+        margin: 24px 24px;
+        padding: 16px 16px;
+      }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+
+  <iron-pages id='pages' selected='0'>
+    <choice-input go-to-page='{{goToPage}}'></choice-input>
+    <div>
+      this is the second page
+    </div>
+  </iron-pages>
+
   </template>
   <script>
   (function() {
@@ -28,12 +42,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       created: function(){
       },
       ready: function(){
+        this.goToPage = this._goToPage.bind(this);
       },
       behaviors: [],
       listeners:{
       },
       properties: {
+        goToPage: {type: Object, notify: true},
         elementName: {type: String, value: 'choice-page', notify: true}
+      },
+      _goToPage: function(str){
+        if(str === 'next'){
+          this.$.pages.selectNext();
+        }
+        if(str === 'prev'){
+          this.$.pages.selectPrevious();
+        }
       }
     });
   })();
