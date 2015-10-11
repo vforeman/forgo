@@ -23,15 +23,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       iron-icon.dollar{
         margin-left: -50px;
-        margin-top: -20px;
+        margin-bottom: -20px;
         --iron-icon-height:32px;
         --iron-icon-width:64px;
       }
 
     </style>
     <iron-icon id='dollarTmpl' src='../../images/dollar-bill.png' class='dollar'></iron-icon>
-    <div id='stack' class='layout vertical self-center'>
-    </div>
+    <div id='stack' class='layout vertical-reverse self-center'></div>
   </template>
   <script>
   (function() {
@@ -57,20 +56,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * amount of money to add after initial startAmount
          * @type {Number}
          */
-        growth: { type: Number,value: 0, notify: true},
+        growth: { type: Number,value: 0, notify: true, observer: '_growthChanged'},
         elementName: { type: String,value: 'money-pile', notify: true}
       },
       _startAmountChanged: function(startAmount){
-        console.log('test')
         for(var i =0; i < startAmount; ++i){
-
           var dollar = this.$.dollarTmpl.cloneNode(true);
-          // var dollar = document.createElement('iron-icon');
-          // dollar.src = '../../images/dollar-bill.png';
           this.$.stack.appendChild(dollar);
-          // dollar.toggleClass('dollar', true);
         }
+      },
+      _growthChanged: function(growth){
+          var dollar = this.$.dollarTmpl.cloneNode(true);
+          this.async(function(){
+            console.log(this.$.stack.childNodes)
+            this.$.stack.appendChild(dollar);
+            if(this.growth > 1){
+              --this.growth;
+            }
+          },1000);
+
       }
+
     });
   })();
   </script>
