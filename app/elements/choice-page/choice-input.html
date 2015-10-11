@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class='layout horizontal'>
       <span class='flex'></span>
       <paper-material class='flex'>
-        <paper-input label='Enter Item'></paper-input>
+        <paper-input id='itemName' label='Enter Item'></paper-input>
       </paper-material>
       <span class='flex'></span>
     </div>
@@ -42,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class='layout horizontal'>
       <span class='flex'></span>
       <paper-material class='flex layout horizontal'>
-        <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span><paper-input label='Enter Price'></paper-input>
+        <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span><paper-input id='itemPrice' label='Enter Price'></paper-input>
       </paper-material>
       <span class='flex'></span>
     </div>
@@ -75,9 +75,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
       properties: {
+        itemPrice: { type: String, notify: true},
+        itemName: { type: String, notify: true},
         elementName: { type: String,value: 'choice-input', notify: true}
       },
       onSliderChange: function(e){
+        this.itemName = this.$.itemName.value;
+        this.itemPrice = this.$.itemPrice.value;
         console.log(e)
         console.log(this.$.slider.value)
         var val = this.$.slider.value;

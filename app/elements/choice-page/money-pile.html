@@ -58,8 +58,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * amount of money to add after initial startAmount
          * @type {Number}
          */
-        growth: { type: Number,value: 0, notify: true, observer: '_growthChanged'},
+        _growth: { type: Number,notify: true, observer: '_growthChanged'},
+        growth: { type: Number,value: 0, notify: true},
+        startMoneyAnimation: { type: Boolean, notify: true, observer: '_smaChanged'},
         elementName: { type: String,value: 'money-pile', notify: true}
+      },
+      _smaChanged: function(sma){
+        if(sma){
+          this._growth = this.growth
+        }
       },
       _startAmountChanged: function(startAmount){
         for(var i =0; i < startAmount; ++i){
@@ -70,14 +77,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _growthChanged: function(growth){
           var dollar = this.$.dollarTmpl.cloneNode(true);
           this.async(function(){
-            console.log(this.$.stack.childNodes)
             this.$.stack.appendChild(dollar);
-            if(this.growth > 1){
-              --this.growth;
+            if(this._growth > 1){
+              --this._growth;
             }
           },250);
+      },
 
-      }
 
     });
   })();

@@ -26,11 +26,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
       <div class='layout vertical'>
-        <template is='dom-repeat' items='{{growth}}'>
-          <div class='layout horizontal'>
-            <div class='flex statement'>{{item.statement}}</div>
-            <money-pile class='flex' start-amount='10' growth='7'></money-pile>
-          </div>
+        <template is='dom-if' if='{{itemPriceSet}}'>
+          <template is='dom-repeat' items='{{growth}}'>
+            <div class='layout horizontal'>
+              <div class='flex statement'>{{_itemize(item.statement)}}</div>
+              <money-pile id='moneyPile' class='flex' start-amount='10' growth='7' start-money-animation='{{sma}}'></money-pile>
+            </div>
+          </template>
         </template>
 
       </div>
@@ -46,23 +48,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-
+        'start-money-animation': 'startMoneyAnimation'
       },
       properties: {
         growth: { type: Array,value: [
           {
-            statement:'Saving %price will increase the size of your Basic Account(s) by %increaseValue amount',
+            statement:'Saving %price will increase the size of your Basic Account(s) by 70% amount',
           },
           {
-            statement:'Saving %price will increase the size of your Splurge Account(s) by %increaseValue amount and you will have %y of %x to splurge with',
+            statement:'Saving %price will increase the size of your Splurge Account(s) by 50% and you will have $140 of $700 to splurge with',
           },
           {
-            statement:'Saving %price will increase the size of your Charity Account(s) by %increaseValue amount',
+            statement:'Saving %price will increase the size of your Charity Account(s) by 30%',
           }
 
         ], notify: true},
 
+        sma: { type: Boolean,value: false, notify: true},
+        itemPriceSet: { type: Boolean, notify: true,computed:'_itemPriceSet(itemPrice)'},
+        itemPrice: { type: String,value: '', notify: true},
         elementName: { type: String,value: 'choice-growth', notify: true}
+      },
+      _itemPriceSet: function(itemPrice){
+        if(itemPrice !== ''){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      _itemize: function(statement){
+        return statement.replace('%price', '$' + this.itemPrice);
+      },
+      startMoneyAnimation: function(e){
+        console.log('startMoneyAnimation');
+        console.log(this)
+        this.sma = true;
       }
     });
   })();

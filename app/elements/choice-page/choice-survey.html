@@ -37,16 +37,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
     <paper-slider id='slider' class='' snaps min='0' max='4' value='2' ></paper-slider>
     <paper-material>
-      <template is='dom-repeat' items='{{survey}}'>
-        <div class='layout horizontal card' index='{{_questionIndex(item)}}'>
-          <div class='layout vertical flex'>
-            <div class='title'>{{item.title}}</div>
-            <div class='question'>{{_itemize(item.question)}}</div>
+      <template is='dom-if' if='{{itemNameSet}}'>
+        <template is='dom-repeat' items='{{survey}}'>
+          <div class='layout horizontal card' index='{{_questionIndex(item)}}'>
+            <div class='layout vertical flex'>
+              <div class='title'>{{item.title}}</div>
+              <div class='question'>{{_itemize(item.question)}}</div>
+            </div>
+            <div class='self-end'>
+              NO <paper-toggle-button on-change='_updateSlider' yes-is-good='{{item.yesIsGood}}'></paper-toggle-button> YES
+            </div>
           </div>
-          <div class='self-end'>
-            NO <paper-toggle-button on-change='_updateSlider' yes-is-good='{{item.yesIsGood}}'></paper-toggle-button> YES
-          </div>
-        </div>
+        </template>
       </template>
     </paper-material>
 
@@ -87,7 +89,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             yesIsGood: false
           }
         ], notify: true},
+        itemNameSet: { type: Boolean, notify: true, computed: '_itemNameSet(itemName)'},
+        itemName: { type: String,value: '',  notify: true},
         elementName: { type: String,value: 'choice-survey', notify: true}
+      },
+      _itemNameSet: function(itemName){
+        if(itemName !== ''){
+          return true;
+        } else {
+          return false;
+        }
       },
       _updateSlider: function(e){
         var checked = e.target.checked;
@@ -95,7 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ;(checked && yesIsGood) || (!checked && !yesIsGood) ? this.$.slider.increment() : this.$.slider.decrement();
       },
       _itemize: function(question){
-        return question.replace('%item','ITEM')
+        return question.replace('%item',this.itemName)
       },
       _questionIndex: function(item){
         return this.survey.indexOf(item);
