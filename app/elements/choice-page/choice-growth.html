@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="money-pile.html">
 
 <dom-module id="choice-growth">
   <template>
@@ -28,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <template is='dom-repeat' items='{{growth}}'>
           <div class='layout horizontal'>
             <div class='flex statement'>{{item.statement}}</div>
-            <div class='flex'>money</div>
+            <money-pile class='flex'></money-pile>
           </div>
         </template>
 
