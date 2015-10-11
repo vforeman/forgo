@@ -17,20 +17,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
         @apply(--layout-vertical);
+        margin: 32px 32px;
       }
       #stack{
+        height: 100px;
         margin-left:50px;
       }
       iron-icon.dollar{
-        margin-left: -50px;
+        margin-left: -30px;
         margin-bottom: -20px;
-        --iron-icon-height:32px;
-        --iron-icon-width:64px;
+        --iron-icon-height:30px;
+        --iron-icon-width:60px;
       }
 
     </style>
     <iron-icon id='dollarTmpl' src='../../images/dollar-bill.png' class='dollar'></iron-icon>
-    <div id='stack' class='layout vertical-reverse self-center'></div>
+    <div id='stack' class='layout vertical-reverse wrap self-center'></div>
   </template>
   <script>
   (function() {
@@ -73,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             if(this.growth > 1){
               --this.growth;
             }
-          },1000);
+          },250);
 
       }
 
