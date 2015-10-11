@@ -9,17 +9,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="money-pile">
   <template>
     <style>
       :host {
         display: block;
+        @apply(--layout-vertical);
       }
+      #stack{
+        margin-left:50px;
+      }
+      iron-icon.dollar{
+        margin-left: -50px;
+        margin-top: -20px;
+        --iron-icon-height:32px;
+        --iron-icon-width:64px;
+      }
+
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
-    <div>Hello from <span>{{elementName}}</span></div>
-    <div>Hello from <span>{{elementName}}</span></div>
+    <iron-icon id='dollarTmpl' src='../../images/dollar-bill.png' class='dollar'></iron-icon>
+    <div id='stack' class='layout vertical self-center'>
+    </div>
   </template>
   <script>
   (function() {
@@ -30,6 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       created: function(){
       },
       ready: function(){
+        this.removeChild(this.$.dollarTmpl);
       },
       listeners: {
 
@@ -39,13 +52,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * how much money the element initially shows
          * @type {Number}
          */
-        startAmount: { type: Number,value: 0, notify: true},
+        startAmount: { type: Number, notify: true, observer: '_startAmountChanged'},
         /**
          * amount of money to add after initial startAmount
          * @type {Number}
          */
         growth: { type: Number,value: 0, notify: true},
         elementName: { type: String,value: 'money-pile', notify: true}
+      },
+      _startAmountChanged: function(startAmount){
+        console.log('test')
+        for(var i =0; i < startAmount; ++i){
+
+          var dollar = this.$.dollarTmpl.cloneNode(true);
+          // var dollar = document.createElement('iron-icon');
+          // dollar.src = '../../images/dollar-bill.png';
+          this.$.stack.appendChild(dollar);
+          // dollar.toggleClass('dollar', true);
+        }
       }
     });
   })();
