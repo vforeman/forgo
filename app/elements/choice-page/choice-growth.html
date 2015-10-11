@@ -16,8 +16,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .statement{
+        font-size: 1.5em;
+        margin: 8px 8px;
+      }
+      .card{
+        margin: 16px 16px;
+      }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+      <div class='layout vertical'>
+        <template is='dom-repeat' items='{{growth}}'>
+          <div class='layout horizontal'>
+            <div class='flex statement'>{{item.statement}}</div>
+            <div class='flex'>money</div>
+          </div>
+        </template>
+
+      </div>
   </template>
   <script>
   (function() {
@@ -30,9 +45,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-        
+
       },
       properties: {
+        growth: { type: Array,value: [
+          {
+            statement:'Saving %price will increase the size of your Basic Account(s) by %increaseValue amount',
+          },
+          {
+            statement:'Saving %price will increase the size of your Splurge Account(s) by %increaseValue amount and you will have %y of %x to splurge with',
+          },
+          {
+            statement:'Saving %price will increase the size of your Charity Account(s) by %increaseValue amount',
+          }
+
+        ], notify: true},
+
         elementName: { type: String,value: 'choice-growth', notify: true}
       }
     });
