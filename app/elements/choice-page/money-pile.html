@@ -18,6 +18,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>Hello from <span>{{elementName}}</span></div>
+    <div>Hello from <span>{{elementName}}</span></div>
+    <div>Hello from <span>{{elementName}}</span></div>
   </template>
   <script>
   (function() {
@@ -30,9 +32,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-        
+
       },
       properties: {
+        /**
+         * how much money the element initially shows
+         * @type {Number}
+         */
+        startAmount: { type: Number,value: 0, notify: true},
+        /**
+         * amount of money to add after initial startAmount
+         * @type {Number}
+         */
+        growth: { type: Number,value: 0, notify: true},
         elementName: { type: String,value: 'money-pile', notify: true}
       }
     });
