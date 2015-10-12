@@ -32,10 +32,12 @@
 <!-- ![](docs/giving-site.png ) -->
 
 
-    * The query string for the search bar can be use like a rest server
+* The query string for the search bar can be use like a rest server
+
 ```
 https://www.capitalone.com/give/charity-search?keywords=%s&zipCode=ZIP&basic.x=0&basic.y=0&topic=
-      ```
+```
+
 ### Technology
 * [Capital One Hackathon API](api.reimaginebaking.com) - used for account transactions
 * [Google Polymer Webcomponents](polymer-project.org/1.0) - Fast Web Prototyping
