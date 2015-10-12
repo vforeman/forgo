@@ -59,34 +59,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
-    <!-- <paper-drawer-panel id="paperDrawerPanel"> -->
-      <!-- Drawer Scroll Header Panel -->
-      <!-- <paper-scroll-header-panel drawer fixed> -->
-
-        <!-- Drawer Toolbar -->
-        <!-- <paper-toolbar id="drawerToolbar">
-          <span class="paper-font-title">Menu</span>
-        </paper-toolbar> -->
-
-        <!-- Drawer Content -->
-        <!-- <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-          <a data-route="home" href="/">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
-          </a> -->
-
-          <!-- <a data-route="users" href="/users">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a> -->
-
-          <!-- <a data-route="contact" href="/contact">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
-          </a>
-        </paper-menu>
-      </paper-scroll-header-panel> -->
-
       <!-- Main Area -->
       <paper-scroll-header-panel main fixed>
 
@@ -111,14 +83,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <span class="flex"></span>
           <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
-          <!-- Application name -->
-          <!-- <div class="middle middle-container center horizontal layout">
-          </div> -->
-
-          <!-- Application sub title -->
-          <!-- <div class="bottom bottom-container center horizontal layout">
-            <div class="bottom-title paper-font-subhead">The future of the web today</div>
-          </div> -->
 
         </paper-toolbar>
 
@@ -161,24 +125,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
-    <!-- </paper-drawer-panel> -->
-
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="networkFirst"
-                         precache-file="precache.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-    -->
 
   </template>
 
