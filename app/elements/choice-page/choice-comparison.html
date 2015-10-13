@@ -47,6 +47,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     .list .list-item .list-item-body .list-item-body-secondary {
       padding-top: 1%;
     }
+
+    .list .list-item .list-item-body paper-button {
+      background-color: #ff4081;
+      color: #FAFAFA;
+      font-size: 60%;
+    }
     </style>
 
   <!-- Cheaper Alternatives for Jordans -->
@@ -57,9 +63,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="list-item-body-img"><img src="{{item.img}}" alt="alternate item" height="100" width="100"></div>
             <div secondary class="list-item-body-secondary">{{item.name}}</div>
             <div tertiary><span>$</span>{{item.price}}</div>
-            <div quaternary><a href="{{item.link}}">Buy Here</a>
-          </paper-item-body></div>
+            <div quaternary><a href="{{item.link}}">Buy Here</a></div>
+            <div quinary><paper-button raised data-dialog="dialog">See your savings</paper-button></div>
+          </paper-item-body>
         </paper-item>
+
+        <paper-dialog>
+          <h2>Savings!</h2>
+          <p>You're saving $<span>{{item.savings}}</span></p>
+        </paper-dialog>
     </template>
     </div>
   </template>
