@@ -97,13 +97,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             acc.linkedTo = this.elementName;
           }
         },this);
-        console.log(ret)
+        console.log("RET: " + ret)
         return ret;
       },
-      _accountsChanged: function(accounts){
-        console.log('accounts changed in basic-account', accounts)
+      _accountsChanged: function(accounts) {
+        console.log('accounts changed in basic-account', accounts);
+      }, _saveLinks: function(accountLinks) {
+        var links = accountLinks;
+        this.$.firebase_doc.query.update({
+          'accounts/basic/id': links.basicId,
+          'accounts/basic/type': links.creditCard,
+          'accounts/basic/nickname': links.nickname,
+          'accounts/basic/rewards': links.rewards,
+          'accounts/basic/balance': links.balance,
+          'account/basic/account_number': links.account_number,
+          'account/basic/customer_id': links.customer_id
+        });
       }
-    });
+    })
   })();
   </script>
 </dom-module>

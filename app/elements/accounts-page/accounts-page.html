@@ -37,6 +37,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--accent-color);
       }
     </style>
+    <firebase-document id="firebase_doc" location="[[location]]" data="{{accountRef}}">
+    </firebase-document>
     <iron-ajax id='ajax'
       url='{{endpoint}}'
       handle-as='json'
@@ -101,6 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         accounts: {type: Array, value:[], notify: true},
         endpoint: {type: String, notify: true, computed: '_endpoint(user)', observer: '_endpointChanged'},
         user: {type: Object, notify: true},
+        location: {type: String, notify: true, observer: '_location(user)'},
         elementName: {type: String, value: 'accounts-page', notify: true}
       },
       _accountLinks: function(accounts){
@@ -111,7 +114,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             isLinked: false,
             linkedTo: ''
           });
-        },this);
+        }, this);
+        console.log("RET");
         console.log(ret)
         return ret;
       },
@@ -127,7 +131,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleResponse: function(e){
         this.accounts = e.detail.response;
         console.log('accounts' , this.accounts);
+      },
+      _location: function(user) {
+        console.log('Location of Firebase account');
+        var loc = 'https://forgo.firebaseio.com/accounts/' + user.uid;
+        console.log("Location accounts-page 134: " + loc);
       }
+
     });
   })();
   </script>
