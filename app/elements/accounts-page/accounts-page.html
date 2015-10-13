@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
@@ -17,14 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
-<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 <link rel="import" href="account-toggle-button.html">
-<link rel="import" href="basic-account.html">
-<link rel="import" href="charity-account.html">
-<link rel="import" href="splurge-account.html">
 
 <dom-module id="accounts-page">
   <template>
@@ -49,7 +42,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin:8px 0px;
       }
       .legend{
-        margin-bottom: 16px;
+        margin: 16px 16px;
+      }
+      account-toggle-button{
+        margin-left: 8px;
       }
     </style>
     <firebase-document id="firebase_doc"
@@ -132,13 +128,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return item.linkedTo === type;
       },
       _accountChanged: function(accounts){
-        console.log(accounts)
+        // console.log(accounts)
       },
       reconcileAccountButtons: function(e){
         var icon = e.target.icon;
         //uncheck sibling buttons
         var icons = e.target.parentNode.querySelectorAll('account-toggle-button');
-        console.log(icons)
         for(var i=0; i< 3;++i){
           if(icons[i].icon !== icon){
             icons[i].checked = false;
@@ -152,6 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }, this);
 
+        //save settings and persist to Firebase
         this.accounts.forEach(function(account){
           console.log(account);
           if(account.nickname === e.target.nickname){
@@ -164,7 +160,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           }
         }, this);
-        console.log(this.accounts)
         this.$.firebase_doc.query.set(this.accounts);
       },
       _kinIcons: function(icon,buttons){
@@ -177,19 +172,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return ret;
       },
       _endpoint: function(user){
-        console.log(user)
         var cid = user.customerid;
         return 'http://api.reimaginebanking.com/customers/'+ cid +'/accounts?key=6fb9265d0d9ba45104e7dccd7bfa5000'
       },
       _endpointChanged: function(endpoint){
-        console.log(endpoint)
+        // console.log(endpoint)
         this.$.ajax.generateRequest();
       },
       handleResponse: function(e){
-        console.log(this.accountRef)
-        console.log(this.$.firebase_doc.data)
         this.accounts = this.accountRef || e.detail.response;
-        console.log('accounts' , this.accounts);
+        // console.log('accounts' , this.accounts);
       },
       _location: function(user){
         var loc = 'https://forgo.firebaseio.com/accounts/' + user.customerid;
