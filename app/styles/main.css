@@ -54,9 +54,16 @@ body {
 
 #welcome {
     height: 1%;
-    padding: 20%;
+    padding: 5%;
+    text-align: center;
 }
 
 .iron-pages {
     height: 49%;
+}
+
+.stapled {
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }

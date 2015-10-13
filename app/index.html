@@ -64,21 +64,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="medium">
-          <div class="app-name">FORGO</div>
+            <a href="/"
+              <div class="app-name">FORGO</div>
+            </a>
           <span class="flex"></span>
           
-         <paper-menu-button>
+         <paper-menu-button horizontal-align="right">
            <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
            <paper-menu class="dropdown-content">
-             <paper-item>Accounts</paper-item>
-             <paper-item>Settings</paper-item>
-             <paper-item>Comparisons</paper-item>
-             <paper-item>Log Out</paper-item>
+             
+               <a data-route="accounts" href="/accounts">
+                   <paper-item class="layout horizontal"> Accounts
+                     <paper-icon-button icon="credit-card" disabled='[[disabled]]'>Accounts</paper-icon-button>
+                   </paper-item>
+               </a>
+              
+              <a data-route="settings" href="/settings">
+                  <paper-item class="layout horizontal right-justified">
+                  Settings
+                  <paper-icon-button icon="settings" disabled='[[disabled]]'></paper-icon-button>
+                  </paper-item>
+              </a>
+
+
+              <a data-route="choice" href="/choice">
+                <paper-item class="layout horizontal">Comparisons
+                  <paper-icon-button icon="communication:call-split"></paper-icon-button>
+                </paper-item>
+              </a>
+
+              <a data-route="choice" href="/logout">
+               <paper-item class="layout horizontal">Log Out
+                  <paper-icon-button icon="power-settings-new" disabled='[[disabled]]'></paper-icon-button>
+               </paper-item>
+             </a>
            </paper-menu>
          </paper-menu-button>
 
           <!-- Toolbar icons -->
-<!--           <a data-route="accounts" href="/accounts">
+     <!--      <a data-route="accounts" href="/accounts">
             <accounts-toolbar-tab disabled='{{!isLoggedIn}}'></accounts-toolbar-tab>
           </a>
           <a data-route="settings" href="/settings">
@@ -135,6 +159,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </iron-pages>
         </div>
       </paper-header-panel>
+        <a data-route="choice" href="/choice">
+          <choice-toolbar-fab class="stapled">
+          </choice-toolbar-fab>
+        </a>
   </template>
 
   <!-- build:js scripts/app.js -->
