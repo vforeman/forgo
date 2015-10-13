@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="choice-history.html">
 <link rel="import" href="choice-comparison.html">
 <link rel="import" href="choice-survey.html">
+<link rel="import" href="save-page.html">
 
 <dom-module id="choice-page">
   <template>
@@ -80,6 +81,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <choice-comparison user-input='[[userInput]]'
       user='[[user]]'></choice-comparison>
     </swipe-page>
+    <swipe-page>
+      <save-page user-input='[[userInput]]'
+      user='[[user]]'></save-page>
+    </swipe-page>
+
   </swipe-pages>
   </template>
   <script>
@@ -97,6 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        userInput: {type: Object, notify: true},
         accounts: {type: Array, notify: true},
         selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
         user: {type: Object, notify: true},
@@ -106,6 +113,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _selectedChanged: function(selected, oldValue){
         if(oldValue == 0){
           this.$.choiceInput._setUserInput();
+        }
+        if(oldValue > selected){
+          console.log('save data')
         }
       },
       _goToPage: function(str){
