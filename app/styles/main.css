@@ -12,3 +12,51 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
 }
+
+.header {
+    height: 50%;
+}
+
+.header .header-backdrop {
+    display: block;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+.header .header-backdrop .header-backdrop-content {
+    background: transparent url('../images/splash.png');
+    background-size: cover;
+    height: 100%;
+    padding-bottom: 10px;
+}
+
+.header .header-backdrop-content .header-backdrop-title {
+    border-radius: 4px;
+    color: #FAFAFA;
+    font-weight: 100;
+    font-size: 200%;
+    line-height: 150%;
+    margin: 2em 0;
+    text-align: left;
+    text-shadow: 0 0 50px rgba(58,93,125,1);
+}
+
+.header .header-backdrop-content #landing-btn {
+    background: #ff4081;
+    color: white;
+}
+
+.header .header-backdrop-content #main-blurb {
+    color: #FAFAFA;
+    padding-top: 25%;
+}
+
+#welcome {
+    height: 1%;
+    padding: 20%;
+}
+
+.iron-pages {
+    height: 49%;
+}
