@@ -70,13 +70,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         accounts: {type: Array, notify: true, observer: '_accountsChanged'},
         accountLinks: {type: Array, notify: true},
-        elementName: {type: String, value: 'basic-account', notify: true}
+        elementName: {type: String, value: 'basic-account', notify: true},
+        location: {type: String, notify: true, computed: '_location(user)'},
+        user: {type: Object, notify: true}
       },
       _toggleLinked: function(e){
         console.log(e.target.id)
         var id = e.target.id;
         this.accountLinks.forEach(function(acc){
-          if(acc.id === id){
+          if(acc._id === id){
             acc.isLinked = !acc.isLinked;
             if(acc.isLinked){
               acc.linkedTo = this.elementName;
@@ -102,6 +104,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _accountsChanged: function(accounts){
         console.log('accounts changed in basic-account', accounts)
+      }, _location: function(user) {
+        var loc = 'https://forgo.firebaseio.com/accounts/' + user.customerid;
+        console.log(loc);
+        return loc;
+      }, _saveLinks: function(accountRef) {
+        var links = accountRef;
+        console.log('Basic Accounts 107');
+        console.log(this);
+        console.log(this.$.firebase_doc.location);
+        this.$.firebase_doc.query.update({
+          '/charity/id': links._id,
+          '/charity/type': links.type,
+          '/charity/nickname': links.nickname,
+          '/charity/rewards': links.rewards,
+          '/charity/balance': links.balance,
+          '/charity/customer_id': links.customer_id
+        });
       }
     });
   })();
