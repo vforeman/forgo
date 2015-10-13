@@ -26,7 +26,11 @@
         position: relative;
       }
     </style>
+    <div class='layout horizontal'>
+      <paper-button on-click="_prevPage">Previous</paper-button>
+      <paper-button on-click="_nextPage">Next</paper-button>
 
+    </div>
     <div id="pagesContainer" class="pagesContainer">
       <content id="pages" select="swipe-page"></content>
     </div>
@@ -172,6 +176,21 @@
         console.log('Swipe Pages Ready');
         this.resetPositions();
         this.resetWidths();
+      },
+      _goToPage: function(str){
+        setAnimationDuration(this.getAttribute('transitionDuration'), this);
+        if(str === 'next'){
+          this.selected = Math.min(this.selected + 1, this.pageCount - 1);
+        }
+        if(str === 'prev'){
+          this.selected = Math.max(this.selected - 1, 0);
+        }
+      },
+      _prevPage: function(e){
+        this._goToPage('prev')
+      },
+      _nextPage: function(e){
+        this._goToPage('next')
       }
     });
   })();
