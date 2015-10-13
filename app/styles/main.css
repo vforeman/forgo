@@ -52,12 +52,6 @@ body {
     padding-top: 25%;
 }
 
-@media (max-width: 600px) {
-    .header .header-backdrop-content .header-backdrop-title {
-        font-size: 150%;
-    }
-}
-
 #welcome {
     height: 1%;
     padding: 20%;
