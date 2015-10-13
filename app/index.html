@@ -64,12 +64,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="medium">
-          <span class="flex"></span>
           <div class="app-name">FORGO</div>
           <span class="flex"></span>
+          
+         <paper-menu-button>
+           <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+           <paper-menu class="dropdown-content">
+             <paper-item>Accounts</paper-item>
+             <paper-item>Settings</paper-item>
+             <paper-item>Comparisons</paper-item>
+             <paper-item>Log Out</paper-item>
+           </paper-menu>
+         </paper-menu-button>
 
           <!-- Toolbar icons -->
-          <a data-route="accounts" href="/accounts">
+<!--           <a data-route="accounts" href="/accounts">
             <accounts-toolbar-tab disabled='{{!isLoggedIn}}'></accounts-toolbar-tab>
           </a>
           <a data-route="settings" href="/settings">
@@ -82,24 +91,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <span class="flex"></span>
-          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
+          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab> -->
 
         </paper-toolbar>
 
         <!-- Main Content -->
         <div class="content">
-
-          <!-- /header -->
-          <header class="header">
-            <div class="header-backdrop">
-              <div class="header-backdrop-content">
-                <h2 class="header-backdrop-title" id="main-blurb"> Welcome to your </br> financial future</h2>
-                <paper-button class="create-btn" id="landing-btn" raised>create account</paper-button>
-              </div>
-            </div>
-          </header>
-
-          <h3 id="welcome">Welcome to Forgo</h3>
 
           <iron-pages class="iron-pages" attr-for-selected="data-route" selected="{{route}}">
 
