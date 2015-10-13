@@ -9,7 +9,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<html lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -55,49 +55,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body unresolved class="fullbleed layout vertical forgo">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
-    <!-- <paper-drawer-panel id="paperDrawerPanel"> -->
-      <!-- Drawer Scroll Header Panel -->
-      <!-- <paper-scroll-header-panel drawer fixed> -->
-
-        <!-- Drawer Toolbar -->
-        <!-- <paper-toolbar id="drawerToolbar">
-          <span class="paper-font-title">Menu</span>
-        </paper-toolbar> -->
-
-        <!-- Drawer Content -->
-        <!-- <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-          <a data-route="home" href="/">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
-          </a> -->
-
-          <!-- <a data-route="users" href="/users">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a> -->
-
-          <!-- <a data-route="contact" href="/contact">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
-          </a>
-        </paper-menu>
-      </paper-scroll-header-panel> -->
-
       <!-- Main Area -->
-      <paper-scroll-header-panel main fixed>
+      <paper-header-panel main fixed>
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="medium">
+            <a href="/"
+              <div class="app-name">FORGO</div>
+            </a>
           <span class="flex"></span>
-          <div class="app-name">FORGO</div>
-          <span class="flex"></span>
+          
+         <paper-menu-button horizontal-align="right">
+           <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+           <paper-menu class="dropdown-content">
+             
+               <a data-route="accounts" href="/accounts">
+                   <paper-item class="layout horizontal"> Accounts
+                     <paper-icon-button icon="credit-card" disabled='[[disabled]]'>Accounts</paper-icon-button>
+                   </paper-item>
+               </a>
+              
+              <a data-route="settings" href="/settings">
+                  <paper-item class="layout horizontal right-justified">
+                  Settings
+                  <paper-icon-button icon="settings" disabled='[[disabled]]'></paper-icon-button>
+                  </paper-item>
+              </a>
+
+
+              <a data-route="choice" href="/choice">
+                <paper-item class="layout horizontal">Comparisons
+                  <paper-icon-button icon="communication:call-split"></paper-icon-button>
+                </paper-item>
+              </a>
+
+              <a data-route="choice" href="/logout">
+               <paper-item class="layout horizontal">Log Out
+                  <paper-icon-button icon="power-settings-new" disabled='[[disabled]]'></paper-icon-button>
+               </paper-item>
+             </a>
+           </paper-menu>
+         </paper-menu-button>
 
           <!-- Toolbar icons -->
-          <a data-route="accounts" href="/accounts">
+     <!--      <a data-route="accounts" href="/accounts">
             <accounts-toolbar-tab disabled='{{!isLoggedIn}}'></accounts-toolbar-tab>
           </a>
           <a data-route="settings" href="/settings">
@@ -110,21 +115,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <span class="flex"></span>
-          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab>
-          <!-- Application name -->
-          <!-- <div class="middle middle-container center horizontal layout">
-          </div> -->
-
-          <!-- Application sub title -->
-          <!-- <div class="bottom bottom-container center horizontal layout">
-            <div class="bottom-title paper-font-subhead">The future of the web today</div>
-          </div> -->
+          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab> -->
 
         </paper-toolbar>
 
         <!-- Main Content -->
         <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+          <iron-pages class="iron-pages" attr-for-selected="data-route" selected="{{route}}">
 
             <landing-page id='landingPage' data-route='home' user='{{user}}' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
 
@@ -160,31 +158,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           </iron-pages>
         </div>
-      </paper-scroll-header-panel>
-    <!-- </paper-drawer-panel> -->
-
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="networkFirst"
-                         precache-file="precache.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
-    -->
-
+      </paper-header-panel>
+        <a data-route="choice" href="/choice">
+          <choice-toolbar-fab class="stapled">
+          </choice-toolbar-fab>
+        </a>
   </template>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
 </body>
+
+<script defer async>
+  console.log(document.querySelector('#mainContainer'));
+</script>
 
 </html>
