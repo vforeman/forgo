@@ -96,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _setUserInput: function(){
         this.userInput = {
           itemName: this.$.itemName.value,
-          itemPrice: this.$.itemPrice.value
+          itemPrice: Number(this.$.itemPrice.value)
         }
       }
     });
