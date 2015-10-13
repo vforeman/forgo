@@ -60,7 +60,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <swipe-page >
       <choice-input id='choiceInput'
         user-input='{{userInput}}'
-        go-to-page='{{goToPage}}'></choice-input>
+        go-to-page='{{goToPage}}'
+        accounts='[[accounts]]'></choice-input>
     </swipe-page>
     <!-- 1 -->
     <swipe-page>
@@ -82,8 +83,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </swipe-page>
     <!-- 4 -->
     <swipe-page>
-      <choice-comparison user-input='[[userInput]]'
-      user='[[user]]'></choice-comparison>
+
+      <choice-comparison
+        user-input='[[userInput]]'
+        user='[[user]]'></choice-comparison>
     </swipe-page>
 
   </swipe-pages>
@@ -103,6 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        isSaving: {type: Boolean,value: false, notify: true},
         userInput: {type: Object, notify: true},
         accounts: {type: Array, notify: true},
         selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
@@ -116,7 +120,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         if(oldValue > selected){
           console.log('save data');
-          this.parentNode.selected = 'save'
+          this.parentNode.selected = 'save';
+          this.isSaving = true;
         }
       },
       _goToPage: function(str){

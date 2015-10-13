@@ -9,15 +9,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../choice-page/money-pile.html">
 
 <dom-module id="save-page">
   <template>
     <style>
       :host {
         display: block;
+        font-size: 2em;
+      }
+      #item{
+        font-size: 3em;
+        font-weight: bold;
+        color:green;
+      }
+      #price{
+        font-size: 3em;
+        font-weight: bold;
+        color:purple;
       }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+    <p>Thanks for Saving <span id='price'>{{prefix(userInput.itemPrice,'$')}}</span> by not purchasing <span id='item'>{{userInput.itemName}}</span></p>
+    <money-pile growth='{{growth}}'></money-pile>
   </template>
   <script>
   (function() {
@@ -33,8 +46,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
       properties: {
+        growth: { type: Number, notify: true},
+        isSaving: { type: Boolean, notify: true, observer: '_isSavingChanged'},
         userInput: { type: Object, notify: true},
         elementName: { type: String,value: 'save-page', notify: true}
+      },
+      _isSavingChanged: function(isSaving){
+        if(isSaving){
+          this.growth = 50;
+        }
+      },
+      prefix: function(price, pre){
+        return pre + price;
       }
     });
   })();
