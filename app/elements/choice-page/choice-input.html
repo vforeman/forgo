@@ -80,8 +80,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         elementName: { type: String,value: 'choice-input', notify: true}
       },
       onSliderChange: function(e){
-        console.log(e)
-        console.log(this.$.slider.value)
         var val = this.$.slider.value;
         if(val === 0 || val === 100){
           this.goToPage('next');

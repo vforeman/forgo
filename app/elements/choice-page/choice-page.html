@@ -32,18 +32,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
   <swipe-pages id='pages' selected='{{selected}}'>
-<!--   <iron-pages id='pages' selected='0'> -->
-<!--     <swipe-page>Test</swipe-page> -->
-<!--     <swipe-page>Yeah</swipe-page> -->
     <swipe-page >
-      <choice-input id='choiceInput' user-input='{{userInput}}' go-to-page='{{goToPage}}'>
-      </choice-input>
+      <choice-input id='choiceInput'
+        user-input='{{userInput}}'
+        go-to-page='{{goToPage}}'></choice-input>
     </swipe-page>
     <swipe-page>
-      <choice-growth user-input='[[userInput]]' user='[[user]]'></choice-growth>
+      <choice-growth
+        user-input='[[userInput]]'
+        user='[[user]]'></choice-growth>
     </swipe-page>
     <swipe-page>
-      <choice-history user-input='[[userInput]]' user='[[user]]'>
+      <choice-history
+        user-input='[[userInput]]' 
+        user='[[user]]'>
       </choice-history>
     </swipe-page>
     <swipe-page>
@@ -52,7 +54,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <swipe-page>
       <choice-comparison></choice-comparison>
     </swipe-page>
-<!--   </iron-pages> -->
   </swipe-pages>
 
   </template>
@@ -83,12 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _goToPage: function(str){
         this.$.pages._goToPage(str);
-        // if(str === 'next'){
-        //   this.$.pages._goToPage(str)selectNext();
-        // }
-        // if(str === 'prev'){
-        //   this.$.pages.selectPrevious();
-        // }
       },
       _prevPage: function(e){
         this.goToPage('prev')

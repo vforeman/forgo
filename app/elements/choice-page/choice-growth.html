@@ -112,7 +112,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return 'http://api.reimaginebanking.com/customers/'+ cid +'/accounts?key=6fb9265d0d9ba45104e7dccd7bfa5000'
       },
       _endpointChanged: function(endpoint){
-        console.log(endpoint)
         this.$.ajax.generateRequest();
       },
       calcIncreaseValue: function(price,account){
