@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 
 <dom-module id="choice-history">
   <template>
@@ -17,7 +18,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+    <firebase-document id='doc'
+      location='[[location]]'
+      data='{{dataRef}}'></firebase-document>
+    <div>The total you spent on <span>{{userInput.itemName}}</span> is <span>{{total}}</span></div>
+    <template is='dom-repeat' items='{{purchaseHistory}}'>
+      sup
+      <span>{{item.date}}</span><span>{{item.price}}</span>
+    </template>
   </template>
   <script>
   (function() {
@@ -30,10 +38,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-        
+
       },
       properties: {
+        total: { type: String, notify: true,computed: '_total(dataRef,userInput)'},
+        purchaseHistory: { type: Array, notify: true,computed: '_purchaseHistory(dataRef,userInput)'},
+        location: { type: String, notify: true, computed: '_location(user,userInput)'},
+        userInput: { type: Object, notify: true},
+        user: { type: Object, notify: true},
+        dataRef: { type: Object, notify: true, observer: '_dataRefChanged'},
         elementName: { type: String,value: 'choice-history', notify: true}
+      },
+      _location: function(user){
+        var loc = 'https://forgo.firebaseio.com/purchases/' + user.uid;
+        console.log(loc);
+        return loc;
+      },
+      _purchaseHistory: function(dataRef,userInput){
+        var ret = [];
+        var history = dataRef[userInput.itemName];
+        Object.keys(history).forEach(function(key){
+          if(!isNaN(key)){
+            ret.push(history[key]);
+          }
+        }, this);
+        console.log('purchaseHistory',ret);
+        return ret;
+      },
+      _total: function(dataRef,userInput){
+        return dataRef[userInput.itemName].total;
       }
     });
   })();
