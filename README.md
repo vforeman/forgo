@@ -3,6 +3,19 @@
 
 > Purchase Moderater App giving users the ability to make conscious purchases
 
+### Environment Dependencies
+```
+  npm install -g gulp bower yo generator-polymer
+```
+### Clone the project
+```
+  git clone git@github.com:vforeman/forgo.git
+```
+### Install project dependencies
+```
+  npm install && bower install
+```
+
 ### Capital One API Credentials:
 ##### [documentation](http://api.reimaginebanking.com/documentation) - customer endpoints
 ##### api key
@@ -34,8 +47,10 @@
 
     * The query string for the search bar can be use like a rest server
 ```
+
 https://www.capitalone.com/give/charity-search?keywords=%s&zipCode=ZIP&basic.x=0&basic.y=0&topic=
-      ```
+
+```
 ### Technology
 * [Capital One Hackathon API](api.reimaginebaking.com) - used for account transactions
 * [Google Polymer Webcomponents](polymer-project.org/1.0) - Fast Web Prototyping
