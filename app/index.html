@@ -73,49 +73,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
            <paper-menu class="dropdown-content">
 
-               <a data-route="accounts" href="/accounts">
-                   <paper-item class="layout horizontal"> Accounts
+               <a data-route="accounts" href="/accounts" class='layout horizontal'>
+                   <paper-item class="layout horizontal flex">
+                     <span class='flex'>
+                     Accounts
+                     </span>
                      <paper-icon-button icon="credit-card" disabled='[[disabled]]'>Accounts</paper-icon-button>
                    </paper-item>
                </a>
 
-              <a data-route="settings" href="/settings">
-                  <paper-item class="layout horizontal right-justified">
+              <a data-route="settings" href="/settings" class='layout horizontal'>
+                  <paper-item class="layout horizontal right-justified flex">
+                  <span class='flex'>
                   Settings
+                  </span>
                   <paper-icon-button icon="settings" disabled='[[disabled]]'></paper-icon-button>
                   </paper-item>
               </a>
 
 
-              <a data-route="choice" href="/choice">
-                <paper-item class="layout horizontal">Comparisons
+              <a data-route="choice" href="/choice" class='layout horizontal'>
+                <paper-item class="layout horizontal flex">
+                  <span class='flex'>
+                  Comparisons
+                  </span>
                   <paper-icon-button icon="communication:call-split"></paper-icon-button>
                 </paper-item>
               </a>
 
-              <a data-route="choice" href="/logout">
-               <paper-item class="layout horizontal">Log Out
+              <a data-route="choice" href="/logout" class='layout horizontal'>
+               <paper-item class="layout horizontal flex">
+                 <span class='flex'>
+                 Log Out
+                 </span>
                   <paper-icon-button icon="power-settings-new" disabled='[[disabled]]'></paper-icon-button>
                </paper-item>
              </a>
            </paper-menu>
          </paper-menu-button>
-
-          <!-- Toolbar icons -->
-     <!--      <a data-route="accounts" href="/accounts">
-            <accounts-toolbar-tab disabled='{{!isLoggedIn}}'></accounts-toolbar-tab>
-          </a>
-          <a data-route="settings" href="/settings">
-            <settings-toolbar-tab disabled='{{!isLoggedIn}}'></settings-toolbar-tab>
-          </a>
-
-          <span class="flex"></span>
-          <a data-route="choice" href="/choice">
-            <choice-toolbar-fab></choice-toolbar-fab>
-          </a>
-
-          <span class="flex"></span>
-          <logout-toolbar-tab disabled='{{!isLoggedIn}}' logout="{{logout}}"></logout-toolbar-tab> -->
 
         </paper-toolbar>
 
@@ -131,30 +126,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <accounts-page data-route='accounts' user='[[userRef]]'></accounts-page>
 
             <choice-page data-route='choice' user='[[userRef]]'></choice-page>
-
-            <section data-route="users">
-              <paper-material elevation="1">
-                <h2 class="paper-font-display2">Users</h2>
-                <p>This is the users section</p>
-                <a href="/users/Rob">Rob</a>
-              </paper-material>
-            </section>
-
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h2 class="paper-font-display2">
-                User:<span>{{params.name}}</span>
-                </h2>
-                <div>This is <span>{{params.name}}</span>'s section</div>
-              </paper-material>
-            </section>
-
-            <section data-route="contact">
-              <paper-material elevation="1">
-                <h2 class="paper-font-display2">Contact</h2>
-                <p>This is the contact section</p>
-              </paper-material>
-            </section>
 
           </iron-pages>
         </div>
