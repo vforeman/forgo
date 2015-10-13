@@ -70,7 +70,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _growthChanged: function(growth){
           var dollar = this.$.dollarTmpl.cloneNode(true);
           this.async(function(){
-            //console.log(this.$.stack.childNodes)
             this.$.stack.appendChild(dollar);
             if(this.growth > 1){
               --this.growth;
