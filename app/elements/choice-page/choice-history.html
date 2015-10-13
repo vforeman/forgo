@@ -26,15 +26,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
       }
 
-      .header.paper-card .title-text.paper-card.purchaseCard {
-          font-weight:normal;
-      }
+/*      paper-card {
+          padding: 16px;
+          font-size: 16px;
+          font-weight: normal;
+      }*/
 
     </style>
     <firebase-document id='doc'
       location='[[location]]'
       data='{{dataRef}}'></firebase-document>
-    <!-- <div>Total Expenses for <span>{{userInput.itemName}}</span> is <span>{{total}}</span></div> -->
+      
     <paper-card heading="{{heading(userInput.itemName)}}">
       <paper-card heading="Purchase Description" class="layout horizontal" >
         <div class="card-content">
