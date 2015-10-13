@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="money-pile.html">
+<link rel="import" href="growth-statement.html">
 
 <dom-module id="choice-growth">
   <template>
@@ -19,12 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
       .statement{
-        font-size: 1.5em;
+        font-size: 1.2em;
         margin: 8px 8px;
       }
       .card{
         margin: 16px 16px;
       }
+
     </style>
       <iron-ajax id='ajax'
         url='{{endpoint}}'
@@ -32,17 +34,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-response='handleResponse'></iron-ajax>
 
 
-      <div class='layout vertical'>
-        <template is='dom-if' if='{{userInputSet}}'>
-          <template is='dom-repeat' items='{{growth}}'>
-            <div class='layout horizontal'>
-              <div class='flex statement'>{{_itemize(item)}}</div>
-              <money-pile class='flex' start-amount='0' growth='{{calcGrowth(item)}}'></money-pile>
-            </div>
-          </template>
-        </template>
 
+      <div class='layout vertical'>
+        <div id='basic' class='layout horizontal'>
+          <money-pile id='basicMoney' class='' start-amount='0' growth='{{calcGrowth(item)}}'></money-pile>
+        </div>
+        <div id='splurge' class='layout horizontal'>
+          <money-pile id='splurgeMoney' class='' start-amount='0' growth='{{calcGrowth(item)}}'></money-pile>
+        </div>
+        <div id='charity' class='layout horizontal'>
+          <money-pile id='charityMoney' class='' start-amount='0' growth='{{calcGrowth(item)}}'></money-pile>
+        </div>
       </div>
+
+
+
   </template>
   <script>
   (function() {
@@ -53,27 +59,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       created: function(){
       },
       ready: function(){
+        this.statementsComplete = false;
       },
       listeners: {
-
       },
       properties: {
         growth: { type: Array,value: [
           {
             type: 'basic',
-            statement:'Saving %price will increase the size of your Basic Account(s) by %increaseValue%',
+            statement:[
+              'Saving ',' will increase the size of your Basic Account by '
+            ]
+
           },
           {
             type: 'splurge',
-            statement:'Saving %price will increase the size of your Splurge Account(s) by %increaseValue% and you will have %y of %x to splurge with',
+            statement:['Saving ',' will increase the size of your Splurge Account by ',' and you will have %y of %x to splurge with'],
           },
           {
             type: 'charity',
-            statement:'Saving %price will increase the size of your Charity Account(s) by %increaseValue%',
+            statement:[
+              'Saving ',' will increase the size of your Charity Account by '
+            ],
           }
 
         ], notify: true},
 
+        statements: { type: Object, notify: true, computed: '_statements(userInput,accounts)', observer: '_statementsChanged'},
+        accounts: { type: Array, notify: true},
         increaseValue: { type: String, notify: true, computed: '_increaseValue(accounts)'},
         endpoint: { type: Object, notify: true, computed: '_endpoint(user)', observer:'_endpointChanged'},
         accounts: { type: Object, notify: true},
@@ -82,6 +95,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         userInputSet: { type: Boolean, notify: true, computed: '_userInputSet(userInput,accounts)'},
         userInput: { type: Object, notify: true, observer: '_userInputChanged'},
         elementName: { type: String,value: 'choice-growth', notify: true}
+      },
+      _statementsChanged: function(statements){
+        if(!this.statementsComplete){
+          console.log(statements);
+          this.$.basic.insertBefore(this.create('growth-statement',{
+            statement: statements.basic
+          }),this.$.basicMoney);
+          this.$.basicMoney.growth = Math.round(statements.basic.percentIncrease);
+          this.$.splurge.insertBefore(this.create('growth-statement',{
+            statement: statements.splurge
+          }),this.$.splurgeMoney);
+          this.$.splurgeMoney.growth = Math.round(statements.splurge.percentIncrease);
+          this.$.charity.insertBefore(this.create('growth-statement',{
+            statement: statements.charity
+          }),this.$.charityMoney);
+          this.$.charityMoney.growth = Math.round(statements.charity.percentIncrease);
+          this.statementsComplete = true;
+        }
+      },
+      _statements:function(userInput,accounts){
+        var ret = {};
+        accounts.forEach(function(acc){
+          // console.log(acc)
+          ret[acc.linkedTo] = {
+            type: acc.linkedTo + ' Account',
+            price: '$'+ Number(userInput.itemPrice / 3).toFixed(2),
+            percentIncrease: (userInput.itemPrice / (userInput.itemPrice + Number(acc.balance)) * 100).toPrecision(3)
+          }
+        },this);
+        console.log(ret);
+        return ret;
       },
       _increaseValue: function(accounts){
         // console.log('calculating increaseValue',accounts)

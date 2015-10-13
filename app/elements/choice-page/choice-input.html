@@ -37,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- <div class='layout horizontal self-center'> -->
       <!-- <span class='flex'></span> -->
       <paper-material class='flex self-center'>
-        <paper-input id='itemName' label='Enter Item' value='uber'></paper-input>
+        <paper-input id='itemName' label='Enter Item' value=''></paper-input>
       </paper-material>
       <!-- <span class='flex'></span> -->
     <!-- </div> -->
@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-material class='flex layout horizontal self-center'>
         <div prefix class='self-center'>$</div>
         <!-- <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span> -->
-        <paper-input id='itemPrice' label='Enter Price' value='15'></paper-input>
+        <paper-input id='itemPrice' label='Enter Price' value=''></paper-input>
       </paper-material>
       <!-- <span class='flex'></span> -->
     <!-- </div> -->
@@ -95,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _setUserInput: function(){
         this.userInput = {
           itemName: this.$.itemName.value,
-          itemPrice: this.$.itemPrice.value
+          itemPrice: Number(this.$.itemPrice.value)
         }
       }
     });

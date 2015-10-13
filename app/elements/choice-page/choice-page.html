@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../swipe-pages/swipe-pages.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
@@ -30,32 +31,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 24px 24px;
         padding: 16px 16px;
       }
+      .save{
+        color: green;
+        font-size: 3em;
+        font-weight: bold;
+        opacity:.5;
+      }
+      .spend{
+        color: red;
+        font-size: 3em;
+        font-weight: bold;
+        opacity:.5;
+      }
+      iron-image{
+        opacity: .5;
+      }
+      .swipe{
+          margin-bottom: 30px;
+      }
     </style>
+    <div class=' swipe layout horizontal fixed-bottom'>
+      <span class='spend self-center'>SPEND</span>
+      <iron-image class='flex' src='../../images/swipe.png' height='200' width='200' sizing='contain'></iron-image>
+      <span class='save self-center'>SAVE</span>
+    </div>
   <swipe-pages id='pages' selected='{{selected}}'>
+    <!-- 0 -->
     <swipe-page >
       <choice-input id='choiceInput'
         user-input='{{userInput}}'
         go-to-page='{{goToPage}}'></choice-input>
     </swipe-page>
+    <!-- 1 -->
     <swipe-page>
       <choice-growth
         user-input='[[userInput]]'
-        user='[[user]]'></choice-growth>
+        user='[[user]]'
+        accounts='[[accounts]]'></choice-growth>
     </swipe-page>
+  <!-- 2 -->
     <swipe-page>
       <choice-history
-        user-input='[[userInput]]' 
+        user-input='[[userInput]]'
         user='[[user]]'>
       </choice-history>
     </swipe-page>
+    <!-- 3 -->
     <swipe-page>
       <choice-survey></choice-survey>
     </swipe-page>
+    <!-- 4 -->
     <swipe-page>
-      <choice-comparison></choice-comparison>
+      <choice-comparison user-input='[[userInput]]'
+      user='[[user]]'></choice-comparison>
     </swipe-page>
-  </swipe-pages>
 
+  </swipe-pages>
   </template>
   <script>
   (function() {
@@ -72,6 +103,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        userInput: {type: Object, notify: true},
+        accounts: {type: Array, notify: true},
         selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
         user: {type: Object, notify: true},
         goToPage: {type: Object, notify: true},
@@ -80,6 +113,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _selectedChanged: function(selected, oldValue){
         if(oldValue == 0){
           this.$.choiceInput._setUserInput();
+        }
+        if(oldValue > selected){
+          console.log('save data');
+          this.parentNode.selected = 'save'
         }
       },
       _goToPage: function(str){
