@@ -20,7 +20,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="choice-history.html">
 <link rel="import" href="choice-comparison.html">
 <link rel="import" href="choice-survey.html">
-<link rel="import" href="save-page.html">
 
 <dom-module id="choice-page">
   <template>
@@ -57,33 +56,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <span class='save self-center'>SAVE</span>
     </div>
   <swipe-pages id='pages' selected='{{selected}}'>
+    <!-- 0 -->
     <swipe-page >
       <choice-input id='choiceInput'
         user-input='{{userInput}}'
         go-to-page='{{goToPage}}'></choice-input>
     </swipe-page>
+    <!-- 1 -->
     <swipe-page>
       <choice-growth
         user-input='[[userInput]]'
         user='[[user]]'
         accounts='[[accounts]]'></choice-growth>
     </swipe-page>
+  <!-- 2 -->
     <swipe-page>
       <choice-history
         user-input='[[userInput]]'
         user='[[user]]'>
       </choice-history>
     </swipe-page>
+    <!-- 3 -->
     <swipe-page>
       <choice-survey></choice-survey>
     </swipe-page>
+    <!-- 4 -->
     <swipe-page>
       <choice-comparison user-input='[[userInput]]'
       user='[[user]]'></choice-comparison>
-    </swipe-page>
-    <swipe-page>
-      <save-page user-input='[[userInput]]'
-      user='[[user]]'></save-page>
     </swipe-page>
 
   </swipe-pages>
@@ -115,7 +115,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.choiceInput._setUserInput();
         }
         if(oldValue > selected){
-          console.log('save data')
+          console.log('save data');
+          this.parentNode.selected = 'save'
         }
       },
       _goToPage: function(str){
