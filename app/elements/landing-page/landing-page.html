@@ -25,7 +25,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .accent{
         background: var(--accent-color);
       }
+      #welcome {
+          height: 1%;
+          padding: 20%;
+      }
     </style>
+
+    <!-- /header -->
+    <header class="header">
+      <div class="header-backdrop">
+        <div class="header-backdrop-content">
+          <h2 class="header-backdrop-title" id="main-blurb"> Welcome to your </br> financial future</h2>
+          <paper-button class="create-btn" id="landing-btn" raised>create account</paper-button>
+        </div>
+      </div>
+    </header>
+
+    <h3 id="welcome">Welcome to Forgo</h3>
 
     <firebase-auth id='auth'
       location='https://forgo.firebaseio.com/'
