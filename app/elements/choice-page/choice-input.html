@@ -34,7 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class='layout horizontal'>
       <span class='flex'></span>
       <paper-material class='flex'>
-        <paper-input label='Enter Item'></paper-input>
+        <paper-input id='itemName' label='Enter Item' value='da pac'></paper-input>
       </paper-material>
       <span class='flex'></span>
     </div>
@@ -42,7 +42,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class='layout horizontal'>
       <span class='flex'></span>
       <paper-material class='flex layout horizontal'>
-        <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span><paper-input label='Enter Price'></paper-input>
+        <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span>
+        <paper-input id='itemPrice' label='Enter Price' value='45'></paper-input>
       </paper-material>
       <span class='flex'></span>
     </div>
@@ -75,6 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
       properties: {
+        userInput: { type: Object, notify: true},
         elementName: { type: String,value: 'choice-input', notify: true}
       },
       onSliderChange: function(e){
@@ -83,6 +85,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var val = this.$.slider.value;
         if(val === 0 || val === 100){
           this.goToPage('next');
+          //get the user input values and save
+          //them to the data binded object 'userInput'
+          this._setUserInput();
+        }
+      },
+      _setUserInput: function(){
+        this.userInput = {
+          itemName: this.$.itemName.value,
+          itemPrice: this.$.itemPrice.value
         }
       }
     });

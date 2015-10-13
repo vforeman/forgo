@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="money-pile.html">
 
 <dom-module id="choice-growth">
@@ -25,12 +26,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 16px 16px;
       }
     </style>
+      <iron-ajax id='ajax'
+        url='{{endpoint}}'
+        handle-as='json'
+        on-response='handleResponse'></iron-ajax>
+
+
       <div class='layout vertical'>
-        <template is='dom-repeat' items='{{growth}}'>
-          <div class='layout horizontal'>
-            <div class='flex statement'>{{item.statement}}</div>
-            <money-pile class='flex' start-amount='10' growth='7'></money-pile>
-          </div>
+        <template is='dom-if' if='{{userInputSet}}'>
+          <template is='dom-repeat' items='{{growth}}'>
+            <div class='layout horizontal'>
+              <div class='flex statement'>{{_itemize(item)}}</div>
+              <money-pile class='flex' start-amount='0' growth='{{calcGrowth(item)}}'></money-pile>
+            </div>
+          </template>
         </template>
 
       </div>
@@ -51,18 +60,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         growth: { type: Array,value: [
           {
-            statement:'Saving %price will increase the size of your Basic Account(s) by %increaseValue amount',
+            type: 'basic',
+            statement:'Saving %price will increase the size of your Basic Account(s) by %increaseValue%',
           },
           {
-            statement:'Saving %price will increase the size of your Splurge Account(s) by %increaseValue amount and you will have %y of %x to splurge with',
+            type: 'splurge',
+            statement:'Saving %price will increase the size of your Splurge Account(s) by %increaseValue% and you will have %y of %x to splurge with',
           },
           {
-            statement:'Saving %price will increase the size of your Charity Account(s) by %increaseValue amount',
+            type: 'charity',
+            statement:'Saving %price will increase the size of your Charity Account(s) by %increaseValue%',
           }
 
         ], notify: true},
 
+        increaseValue: { type: String, notify: true, computed: '_increaseValue(accounts)'},
+        endpoint: { type: Object, notify: true, computed: '_endpoint(user)', observer:'_endpointChanged'},
+        accounts: { type: Object, notify: true},
+        user: { type: Object, notify: true},
+        price: { type: String, notify: true, computed: '_price(userInput)'},
+        userInputSet: { type: Boolean, notify: true, computed: '_userInputSet(userInput,accounts)'},
+        userInput: { type: Object, notify: true, observer: '_userInputChanged'},
         elementName: { type: String,value: 'choice-growth', notify: true}
+      },
+      _increaseValue: function(accounts){
+        console.log('calculating increaseValue',accounts)
+      },
+      _userInputChanged: function(userInput){
+        console.log('userInput changed', userInput);
+      },
+      _userInputSet: function(userInput){
+        if(userInput){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      _itemize: function(item){
+        var ret = item.statement.replace('%price','$'+this.price);
+        ret = ret.replace('%increaseValue',this.calcIncreaseValue(this.price,this.accounts[this.growth.indexOf(item)]));
+        return ret;
+      },
+      _price: function(userInput){
+        return userInput.itemPrice;
+      },
+      handleResponse: function(e){
+        this.accounts = e.detail.response;
+      },
+      _endpoint: function(user){
+        var cid = user.customerid;
+        return 'http://api.reimaginebanking.com/customers/'+ cid +'/accounts?key=6fb9265d0d9ba45104e7dccd7bfa5000'
+      },
+      _endpointChanged: function(endpoint){
+        console.log(endpoint)
+        this.$.ajax.generateRequest();
+      },
+      calcIncreaseValue: function(price,account){
+        console.log('account',account)
+        console.log('price',price)
+        var total = Number(account.balance) + Number(price);
+        console.log('total',total)
+        return (price / total * 100).toPrecision(3);
+      },
+      calcGrowth: function(item){
+        return Math.round(this.calcIncreaseValue(this.price,this.accounts[this.growth.indexOf(item)]))
       }
     });
   })();

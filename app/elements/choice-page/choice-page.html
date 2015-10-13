@@ -34,9 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-button on-click="_nextPage">Next</paper-button>
 
   </div>
-  <iron-pages id='pages' selected='1'>
-    <choice-input go-to-page='{{goToPage}}'></choice-input>
-    <choice-growth></choice-growth>
+  <iron-pages id='pages' selected='0'>
+    <choice-input go-to-page='{{goToPage}}' user-input='{{userInput}}'></choice-input>
+    <choice-growth user-input='[[userInput]]' user='[[user]]'></choice-growth>
     <choice-history></choice-history>
     <choice-survey></choice-survey>
     <choice-comparison></choice-comparison>
@@ -58,6 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        user: {type: Object, notify: true},
         goToPage: {type: Object, notify: true},
         elementName: {type: String, value: 'choice-page', notify: true}
       },
