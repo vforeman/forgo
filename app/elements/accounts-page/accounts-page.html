@@ -9,7 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
@@ -19,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="account-toggle-button.html">
 <link rel="import" href="basic-account.html">
 <link rel="import" href="charity-account.html">
 <link rel="import" href="splurge-account.html">
@@ -29,55 +32,78 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
-      paper-icon-button{
-        --iron-icon-height: 128px;
-        --iron-icon-width: 128px;
+      iron-icon{
+        --iron-icon-height: 64px;
+        --iron-icon-width: 64px;
       }
       div.iron-selected{
         color: var(--accent-color);
       }
+      paper-material{
+        padding: 8px 8px;
+      }
+      .nickname{
+        font-size:1.3em;
+      }
+      .account{
+        margin:8px 0px;
+      }
+      .legend{
+        margin-bottom: 16px;
+      }
     </style>
-    <firebase-document id="firebase_doc" location="[[location]]" data="{{accountRef}}">
-    </firebase-document>
+    <firebase-document id="firebase_doc"
+      location="[[location]]"
+      data='{{accountRef}}'></firebase-document>
+
     <iron-ajax id='ajax'
       url='{{endpoint}}'
       handle-as='json'
       on-response='handleResponse'></iron-ajax>
 
-    <iron-selector selected='{{accountType}}' class="layout horizontal justified">
+    <div class='layout horizontal justified legend'>
+
       <!-- BASIC ACCOUNT -->
       <div class='layout horizontal'>
-        <paper-toggle-button class='self-center'></paper-toggle-button>
         <div class='layout vertical justified'>
-          <paper-icon-button icon="maps:local-atm" class='self-center'></paper-icon-button>
+          <iron-icon icon="maps:local-atm" class='self-center'></iron-icon>
         <span class='self-center'>Basic Account</span>
         </div>
       </div>
 
       <!-- SPLURGE ACCOUNT -->
       <div class='layout horizontal'>
-        <paper-toggle-button class='self-center'></paper-toggle-button>
         <div class='layout vertical justified'>
-          <paper-icon-button icon="maps:local-mall" class='self-center'></paper-icon-button>
+          <iron-icon icon="maps:local-mall" class='self-center'></iron-icon>
           <span class='self-center'>Splurge Account</span>
         </div>
       </div>
 
       <!-- CHARITY ACCOUNT -->
       <div class='layout horizontal'>
-        <paper-toggle-button class='self-center'></paper-toggle-button>
         <div class='layout vertical justified'>
-          <paper-icon-button icon="image:healing" class='self-center'></paper-icon-button>
+          <iron-icon icon="image:healing" class='self-center'></iron-icon>
           <span class='self-center'>Charity Account</span>
         </div>
       </div>
-    </iron-selector>
 
-    <iron-pages selected="{{accountType}}">
-      <basic-account accounts='{{accounts}}' account-links='{{accountLinks}}' user='{{user}}'></basic-account>
-      <splurge-account accounts='{{accounts}}' account-links='{{accountLinks}}' user='{{user}}'></splurge-account>
-      <charity-account accounts='{{accounts}}' account-links='{{accountLinks}}' user='{{user}}'></charity-account>
-    </iron-pages>
+    </div>
+    <paper-material class='layout vertical'>
+      <template is='dom-repeat' items='{{accounts}}'>
+        <div class='layout horizontal account'>
+          <div class='layout vertical flex'>
+            <div class='nickname'>{{item.nickname}}</div>
+            <div class='type'>{{item.type}}</div>
+          </div>
+          <div class='layout horizontal'>
+            <account-toggle-button icon='maps:local-atm' index='1' icon-type='basic' nickname='{{item.nickname}}' checked="{{isLinked(item,'basic')}}"></account-toggle-button>
+            <account-toggle-button icon="maps:local-mall" index='2' icon-type='splurge' nickname='{{item.nickname}}' checked="{{isLinked(item,'splurge')}}"></account-toggle-button>
+            <account-toggle-button icon="image:healing" index='3' icon-type='charity' nickname='{{item.nickname}}' checked="{{isLinked(item,'charity')}}"></account-toggle-button>
+          </div>
+        </div>
+      </template>
+    </paper-material>
+
   </template>
   <script>
   (function() {
@@ -92,29 +118,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       behaviors: [],
       listeners:{
+        'account-button-toggled': 'reconcileAccountButtons'
       },
       properties: {
-        /**
-         * array containing keys which are the account_ids and a boolean about whether
-         * that account is linked to one of the apps accounts
-         * @type {Array}
-         */
-        accountLinks: {type: Array, notify: true, computed: '_accountLinks(accounts)'},
-        accounts: {type: Array, value:[], notify: true},
-        endpoint: {type: String, notify: true, computed: '_endpoint(user)', observer: '_endpointChanged'},
+        accountRef: {type: Object, notify: true},
+        accounts: {type: Array, value:[], notify: true, observer:'_accountChanged'},
+        endpoint: {type: String, notify: true, computed: '_endpoint(user,accountRef)', observer: '_endpointChanged'},
         user: {type: Object, notify: true},
-        location: {type: String, notify: true, observer: '_location(user)'},
+        location: {type: String, notify: true, computed: '_location(user)'},
         elementName: {type: String, value: 'accounts-page', notify: true}
       },
-      _accountLinks: function(accounts){
-        var ret = [];
-        accounts.forEach(function(acc){
-          acc.isLinked = false;
-          acc.linkedTo = '';
-          ret.push(acc);
+      isLinked: function(item,type){
+        return item.linkedTo === type;
+      },
+      _accountChanged: function(accounts){
+        console.log(accounts)
+      },
+      reconcileAccountButtons: function(e){
+        var icon = e.target.icon;
+        //uncheck sibling buttons
+        var icons = e.target.parentNode.querySelectorAll('account-toggle-button');
+        console.log(icons)
+        for(var i=0; i< 3;++i){
+          if(icons[i].icon !== icon){
+            icons[i].checked = false;
+          }
+        }
+        //disable kin buttons
+        var kinIcons = this._kinIcons(icon,e.target.parentNode.parentNode.parentNode.querySelectorAll("account-toggle-button"))
+        kinIcons.forEach(function(button){
+          if(button != e.target){
+            button.checked = false;
+          }
         }, this);
-        console.log("RET");
-        console.log(ret)
+
+        this.accounts.forEach(function(account){
+          console.log(account);
+          if(account.nickname === e.target.nickname){
+            account.isLinked = true;
+            account.linkedTo = e.target.iconType;
+          } else {
+            if(account.linkedTo == e.target.iconType){
+              account.isLinked = false;
+              account.linkedTo = '';
+            }
+          }
+        }, this);
+        console.log(this.accounts)
+        this.$.firebase_doc.query.set(this.accounts);
+      },
+      _kinIcons: function(icon,buttons){
+        var ret = [];
+        for(var i in buttons){
+          if(buttons[i].icon === icon){
+            ret.push(buttons[i]);
+          }
+        }
         return ret;
       },
       _endpoint: function(user){
@@ -127,9 +186,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.ajax.generateRequest();
       },
       handleResponse: function(e){
-        this.accounts = e.detail.response;
+        console.log(this.accountRef)
+        console.log(this.$.firebase_doc.data)
+        this.accounts = this.accountRef || e.detail.response;
         console.log('accounts' , this.accounts);
-      }
+      },
+      _location: function(user){
+        var loc = 'https://forgo.firebaseio.com/accounts/' + user.customerid;
+        console.log(loc);
+        return loc;
+      },
     });
   })();
   </script>
