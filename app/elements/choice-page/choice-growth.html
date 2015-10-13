@@ -84,10 +84,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         elementName: { type: String,value: 'choice-growth', notify: true}
       },
       _increaseValue: function(accounts){
-        console.log('calculating increaseValue',accounts)
+        // console.log('calculating increaseValue',accounts)
       },
       _userInputChanged: function(userInput){
-        console.log('userInput changed', userInput);
+        // console.log('userInput changed', userInput);
       },
       _userInputSet: function(userInput){
         if(userInput){
@@ -116,10 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.ajax.generateRequest();
       },
       calcIncreaseValue: function(price,account){
-        console.log('account',account)
-        console.log('price',price)
         var total = Number(account.balance) + Number(price);
-        console.log('total',total)
         return (price / total * 100).toPrecision(3);
       },
       calcGrowth: function(item){
