@@ -16,8 +16,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      .list {
+        padding-top: 12px;
+        display: inline-block;
+        width: 75%;
+        height: 75%;
+        margin: 12px;
+        @apply(--shadow-elevation-2dp);
+    }
+
+    .list .list-item {
+      padding-bottom: 10px;
+    }
+
+    .list .list-item .list-item-body {
+      margin: 2px;
+      padding: 10px;
+      width: 100%;
+      @apply(--shadow-elevation-2dp);
+    }
+
+    .list .list-item .list-item-body .list-item-body-img {
+      float: left;
+      height: 100px;
+      padding: 0 5px;
+      width: 100px;
+    }
+
+    .list .list-item .list-item-body .list-item-body-secondary {
+      padding-top: 1%;
+    }
     </style>
-    <div>Hello from <span>{{elementName}}</span></div>
+
+  <!-- Cheaper Alternatives for Jordans -->
+    <div class="list" role="list">
+    <template is="dom-repeat" items="{{alternateData}}">
+        <paper-item role="listitem" class="list-item">
+          <paper-item-body three-line class="list-item-body">
+            <div class="list-item-body-img"><img src="{{item.img}}" alt="alternate item" height="100" width="100"></div>
+            <div secondary class="list-item-body-secondary">{{item.name}}</div>
+            <div tertiary><span>$</span>{{item.price}}</div>
+            <div quaternary><a href="{{item.link}}">Buy Here</a>
+          </paper-item-body></div>
+        </paper-item>
+    </template>
+    </div>
   </template>
   <script>
   (function() {
@@ -30,10 +74,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function(){
       },
       listeners: {
-        
+
       },
       properties: {
-        elementName: { type: String,value: 'choice-comparison', notify: true}
+        elementName: { type: String,value: 'choice-comparison', notify: true},
+        userInput: { type: Object, notify: true},
+        user: { type: Object, notify: true},
+        alternateData: { type: Array, computed: '_alternateData(userInput)'}
+      },
+
+      _alternateData: function(userInput) {
+        var data = [];
+        var jordans = [
+          {name: "Reebok", price: 52.00, savings: 0, img: 'http://www.finishline.com/images/products/xlj15601og-wbs_fl.jpg', link: 'http://www.finishline.com/store/catalog/product.jsp?productId=prod773739&brand_name=REEBOK&cmp=ppc-pla-google-EOSSFALL2015-Promos-Reebok%20Men%27s%20Pump%20Omni%20Lite%20Retro%20Basketball%20Shoes&ci_src=17588969&ci_sku=2071014&gclid=CjwKEAjw1_KwBRDEz_WvncL4jGwSJAAEym0dDJmiZVJAaowXSby4QY_7gbgVAq6R4SjaRRWNgPZQxxoC_nvw_wcB&gclsrc=aw.ds'},
+          {name: "Asics", price: 40.00, savings: 0, img: 'http://slimages.macysassets.com/is/image/MCY/products/7/optimized/2579637_fpx.tif?wid=330&hei=404&fit=fit,1&$filterlrg$', link: 'http://www1.macys.com/shop/product/asics-mens-gel-venture-4-running-sneakers-from-finish-line?ID=1935553&pla_country=US&CAGPSPN=pla&CAWELAID=120156340001428084&catargetid=120156340001432914&cadevice=c&cm_mmc=Google_Mens_Shoes_Adchemy_PLA_PLA-_-Men%27s+Shoes_Finish+Line+-+GS_Asics-_-50901859112_-_-_mkwid_rg3m8WNj|dc_50901859112%7C-%7Crg3m8WNj'},
+          {name: "Converse", price: 55.00, savings: 0, img: 'http://www.finishline.com/images/products/xlm9697-nvy_fl.jpg', link: 'http://www.finishline.com/store/catalog/product.jsp?productId=prod342655&brand_name=CONVERSE&cmp=ppc-pla-google-Promos-Converse%20Chuck%20Taylor%20Low%20Top%20Mens%20Casual%20Shoe&ci_src=17588969&ci_sku=1144134&gclid=CjwKEAjw1_KwBRDEz_WvncL4jGwSJAAEym0dgvZwuGK01pzAiU4NTCKTvP9Tjv1TKdgNdkZhpIpG9xoC9cfw_wcB&gclsrc=aw.ds'}
+        ];
+        var gucci = [
+          {name: "Apt. 9", price: 69.99, savings: 0, img: 'http://media.kohlsimg.com/is/image/kohls/1929291?wid=500&hei=500&op_sharpen=1', link: 'http://www.kohls.com/product/prd-1929291/apt-9-mens-oxford-dress-shoes.jsp?ci_mcc=ci&utm_campaign=MNSCONTEMPORARYSHOES&utm_medium=CSE&utm_source=google&utm_product=98422864&CID=shopping15&ci_src=17588969&ci_sku=98422864&gclid=CjwKEAjw1_KwBRDEz_WvncL4jGwSJAAEym0d9qRKBzOreJ7qKFP2b4S1xc6jmiE5gTjJXd8KjI_BHRoCI9jw_wcB&gclsrc=aw.ds&dclid=CKqDqYv4vsgCFdV8vQodKO0BdQ'},
+          {name: "Kenneth Cole", price: 27.99, savings: 0, img: 'http://a2.zassets.com/images/z/2/8/9/7/9/6/2897963-p-MULTIVIEW.jpg', link: 'http://www.6pm.com/kenneth-cole-unlisted-room-4-rent-dark-brown-synthetic?zhlfid=139&kpid=33609673' },
+          {name: "Goodfellas Boys", price: 24.00, savings: 0, img: 'http://s7d2.scene7.com/is/image/DSWShoes/337660_020_ss_01?scl=3.125&qlt=70&fmt=jpeg&wid=480&hei=359&op_sharpen=1', link: 'http://www.dsw.com/shoe/aldo+coawen+oxford?prodId=337660'}
+        ];
+
+        if (userInput.itemName.includes('jordan') || userInput.itemName.includes('Jordan')) {
+          data = jordans;
+          data.forEach(function(alt) {
+            alt.savings = userInput.itemValue - alt.price;
+          });
+        } else if (userInput.itemName.includes('gucci') || userInput.itemName.includes('Gucci') ) {
+          data = gucci;
+          data.forEach(function(alt) {
+            alt.savings = userInput.itemValue - alt.price;
+          });
+        } else {
+          console.log("");
+        }
+        return data ? data : [];
       }
     });
   })();
