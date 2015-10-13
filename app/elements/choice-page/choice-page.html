@@ -106,6 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        isSaving: {type: Boolean,value: false, notify: true},
         userInput: {type: Object, notify: true},
         accounts: {type: Array, notify: true},
         selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
@@ -119,7 +120,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         if(oldValue > selected){
           console.log('save data');
-          this.parentNode.selected = 'save'
+          this.parentNode.selected = 'save';
+          this.isSaving = true;
         }
       },
       _goToPage: function(str){
