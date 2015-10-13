@@ -55,12 +55,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body unresolved class="fullbleed layout vertical forgo">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
       <!-- Main Area -->
-      <paper-scroll-header-panel main fixed>
+      <paper-header-panel main fixed>
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="medium">
@@ -93,12 +93,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <header class="header">
             <div class="header-backdrop">
               <div class="header-backdrop-content">
-                <h2 class="header-backdrop-title" id="main-blurb"> Welcome to your financial Future</h2>
+                <h2 class="header-backdrop-title" id="main-blurb"> Welcome to your </br> financial future</h2>
+                <paper-button class="create-btn" id="landing-btn" raised>create account</paper-button>
               </div>
             </div>
           </header>
 
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+          <h3 id="welcome">Welcome to Forgo</h3>
+
+          <iron-pages class="iron-pages" attr-for-selected="data-route" selected="{{route}}">
 
             <landing-page id='landingPage' data-route='home' user='{{user}}' is-logged-in='{{isLoggedIn}}' logout='{{logout}}'></landing-page>
 
@@ -134,12 +137,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           </iron-pages>
         </div>
-      </paper-scroll-header-panel>
+      </paper-header-panel>
   </template>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
 </body>
+
+<script defer async>
+  console.log(document.querySelector('#mainContainer'));
+</script>
 
 </html>

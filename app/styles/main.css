@@ -14,11 +14,12 @@ body {
 }
 
 .header {
-
+    height: 50%;
 }
 
 .header .header-backdrop {
     display: block;
+    height: 100%;
     margin: 0;
     width: 100%;
 }
@@ -29,7 +30,7 @@ body {
     height: 100%;
 }
 
-.header .header-backdrop-title {
+.header .header-backdrop-content .header-backdrop-title {
     border-radius: 4px;
     color: #FAFAFA;
     font-weight: 100;
@@ -41,12 +42,27 @@ body {
     text-shadow: 0 0 50px rgba(58,93,125,1);
 }
 
+.header .header-backdrop-content #landing-btn {
+    background: #ff4081;
+    color: white;
+}
+
 .header #main-blurb {
-    padding: 70px;
+    color: #FAFAFA;
+    padding-top: 25%;
 }
 
 @media (max-width: 600px) {
     .header-backdrop-title {
         font-size: 150%;
     }
+}
+
+#welcome {
+    height: 1%;
+    padding: 20%;
+}
+
+.iron-pages {
+    height: 49%;
 }
