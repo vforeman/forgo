@@ -36,6 +36,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 16px 16px;
       }
     </style>
+    <firebase-document id="firebase_doc" location="[[location]]" data="{{accountRef}}">
+    </firebase-document>
+    <iron-ajax id='ajax'
+      url='{{endpoint}}'
+      handle-as='json'
+      on-response='handleResponse'></iron-ajax>
     <div class="account-description self-center">
       Money you save goes straight into the accounts you link
     </div>
@@ -83,6 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             if(acc.isLinked){
               acc.linkedTo = this.elementName;
               this.toggleClass('linked', true, e.target.parentNode);
+              this._saveLinks(acc);
             } else {
               acc.linkedTo = '';
               this.toggleClass('linked', false, e.target.parentNode);
@@ -110,16 +117,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return loc;
       }, _saveLinks: function(accountRef) {
         var links = accountRef;
-        console.log('Basic Accounts 107');
-        console.log(this);
-        console.log(this.$.firebase_doc.location);
         this.$.firebase_doc.query.update({
-          '/charity/id': links._id,
-          '/charity/type': links.type,
-          '/charity/nickname': links.nickname,
-          '/charity/rewards': links.rewards,
-          '/charity/balance': links.balance,
-          '/charity/customer_id': links.customer_id
+          '/splurge/id': links._id,
+          '/splurge/type': links.type,
+          '/splurge/nickname': links.nickname,
+          '/splurge/rewards': links.rewards,
+          '/splurge/balance': links.balance,
+          '/splurge/customer_id': links.customer_id
         });
       }
     });
