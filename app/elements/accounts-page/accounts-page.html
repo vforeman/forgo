@@ -74,7 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </iron-selector>
 
     <iron-pages selected="{{accountType}}">
-      <basic-account accounts='{{accounts}}' account-links='{{accountLinks}}'></basic-account>
+      <basic-account accounts='{{accounts}}' account-links='{{accountLinks}}' user='{{user}}'></basic-account>
       <splurge-account accounts='{{accounts}}' account-links='{{accountLinks}}'></splurge-account>
       <charity-account accounts='{{accounts}}' account-links='{{accountLinks}}'></charity-account>
     </iron-pages>
@@ -109,11 +109,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _accountLinks: function(accounts){
         var ret = [];
         accounts.forEach(function(acc){
-          ret.push({
-            id: acc._id,
-            isLinked: false,
-            linkedTo: ''
-          });
+          acc.isLinked = false;
+          acc.linkedTo = '';
+          ret.push(acc);
         }, this);
         console.log("RET");
         console.log(ret)
@@ -131,13 +129,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleResponse: function(e){
         this.accounts = e.detail.response;
         console.log('accounts' , this.accounts);
-      },
-      _location: function(user) {
-        console.log('Location of Firebase account');
-        var loc = 'https://forgo.firebaseio.com/accounts/' + user.uid;
-        console.log("Location accounts-page 134: " + loc);
       }
-
     });
   })();
   </script>
