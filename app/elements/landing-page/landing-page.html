@@ -93,6 +93,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('logged in successfully',e.detail.user);
         app['userData.uid'] = e.detail.user.uid;
         this.set('isLoggedIn',true);
+        app.route = 'accounts';
       },
       _attemptLogout: function(e){
         this.$.auth.logout();
