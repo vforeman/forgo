@@ -40,6 +40,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="account-description self-center">
       Money you save goes straight into the accounts you link
     </div>
+    <firebase-document id="firebase_doc" location="[[location]]" data="{{accountRef}}">
+    </firebase-document>
+    <iron-ajax id='ajax'
+      url='{{endpoint}}'
+      handle-as='json'
+      on-response='handleResponse'></iron-ajax>
     <paper-material>
       <div>
         select an account to link to the basic savings account.
@@ -84,6 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             if(acc.isLinked){
               acc.linkedTo = this.elementName;
               this.toggleClass('linked', true, e.target.parentNode);
+              this._saveLinks(acc);
             } else {
               acc.linkedTo = '';
               this.toggleClass('linked', false, e.target.parentNode);
@@ -107,13 +114,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('accounts changed in basic-account', accounts)
       }, _location: function(user) {
         var loc = 'https://forgo.firebaseio.com/accounts/' + user.customerid;
-        console.log(loc);
         return loc;
       }, _saveLinks: function(accountRef) {
         var links = accountRef;
-        console.log('Basic Accounts 107');
-        console.log(this);
-        console.log(this.$.firebase_doc.location);
         this.$.firebase_doc.query.update({
           '/charity/id': links._id,
           '/charity/type': links.type,

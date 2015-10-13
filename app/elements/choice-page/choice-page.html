@@ -8,10 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
+<link rel="import" href="../swipe-pages/swipe-pages.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
 <link rel="import" href="choice-input.html">
 <link rel="import" href="choice-growth.html">
 <link rel="import" href="choice-history.html">
@@ -29,19 +31,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 16px 16px;
       }
     </style>
-  <div class='layout horizontal'>
-    <paper-button on-click="_prevPage">Previous</paper-button>
-    <paper-button on-click="_nextPage">Next</paper-button>
-
-  </div>
-  <iron-pages id='pages' selected='0'>
-    <choice-input go-to-page='{{goToPage}}' user-input='{{userInput}}'></choice-input>
-    <choice-growth user-input='[[userInput]]' user='[[user]]'></choice-growth>
-    <choice-history user-input='[[userInput]]' user='[[user]]'></choice-history>
-    <choice-survey></choice-survey>
-    <choice-comparison user-input='[[userInput]]' user='[[user]]'></choice-comparison>
-  </iron-pages>
-
+  <swipe-pages id='pages' selected='{{selected}}'>
+    <swipe-page >
+      <choice-input id='choiceInput'
+        user-input='{{userInput}}'
+        go-to-page='{{goToPage}}'></choice-input>
+    </swipe-page>
+    <swipe-page>
+      <choice-growth
+        user-input='[[userInput]]'
+        user='[[user]]'></choice-growth>
+    </swipe-page>
+    <swipe-page>
+      <choice-history
+        user-input='[[userInput]]'
+        user='[[user]]'>
+      </choice-history>
+    </swipe-page>
+    <swipe-page>
+      <choice-survey></choice-survey>
+    </swipe-page>
+    <swipe-page>
+      <choice-comparison></choice-comparison>
+    </swipe-page>
+  </swipe-pages>
   </template>
   <script>
   (function() {
@@ -58,17 +71,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
         user: {type: Object, notify: true},
         goToPage: {type: Object, notify: true},
         elementName: {type: String, value: 'choice-page', notify: true}
       },
+      _selectedChanged: function(selected, oldValue){
+        if(oldValue == 0){
+          this.$.choiceInput._setUserInput();
+        }
+      },
       _goToPage: function(str){
-        if(str === 'next'){
-          this.$.pages.selectNext();
-        }
-        if(str === 'prev'){
-          this.$.pages.selectPrevious();
-        }
+        this.$.pages._goToPage(str);
       },
       _prevPage: function(e){
         this.goToPage('prev')

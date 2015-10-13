@@ -17,22 +17,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        margin-top: 64px;
+        margin: 24px 24px;
       }
       paper-icon-button{
-        --iron-icon-height: 64px;
-        --iron-icon-width: 64px;
         --paper-icon-button:{
-          background: var(--accent-color);
-          border-radius: 25px;
+          background: var(--default-primary-color);
+          border-radius: 50px;
+          height:64px;
+          width: 64px;
         }
       }
       paper-material{
-        border-radius: 25px;
+        border-radius: 50px;
       }
     </style>
     <paper-material elevation="3">
-      <paper-icon-button icon="communication:call-split"></paper-icon-button>
+      <paper-icon-button icon="communication:call-split" ></paper-icon-button>
     </paper-material>
   </template>
   <script>
