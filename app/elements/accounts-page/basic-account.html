@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
@@ -43,18 +45,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="account-description self-center">
       Money you save goes straight into the accounts you link
     </div>
-    <paper-material>
+    <paper-material class='layout vertical'>
       <div>
         select an account to link to the basic savings account.
       </div>
-      <template is='dom-repeat' items='{{accounts}}'>
-          <div class='layout horizontal justified' >
-            <paper-icon-button id='{{item._id}}' icon='communication:call-merge'
-              on-click='_toggleLinked'></paper-icon-button>
-            <span class='nickname'>{{item.nickname}}</span>
-            <span class='type self-end'>{{item.type}}</span>
-          </div>
-      </template>
+      <paper-radio-group selected='{{selected}}' >
+        <template is='dom-repeat' items='{{accounts}}'>
+            <!-- <div class='layout horizontal justified' > -->
+              <paper-radio-button id='{{item._id}}' name='{{item._id}}'
+                on-change='_toggleLinked' class='layout horizontal'
+                checked='{{_isLinkedToAccount(item)}}'>
+              <span class='nickname'>{{item.nickname}}</span>
+              <span class='type self-end'>{{item.type}}</span>
+                </paper-radio-button>
+            <!-- </div> -->
+        </template>
+      </paper-radio-group>
     </paper-material>
   </template>
   <script>
@@ -91,17 +97,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             acc.isLinked = !acc.isLinked;
             if(acc.isLinked){
               acc.linkedTo = this.elementName;
-              this.toggleClass('linked', true, e.target.parentNode);
+              // this.toggleClass('linked', true, e.target.parentNode);
               this._saveLinks(acc);
             } else {
               acc.linkedTo = '';
-              this.toggleClass('linked', false, e.target.parentNode);
+              // this.toggleClass('linked', false, e.target.parentNode);
             }
           }
         }, this);
         //console.log(e.target.parentNode)
         console.log(this.accountLinks);
 
+      },
+      _isLinkedToAccount: function(item){
+        console.log(item)
+        if(item.isLinked === true){
+          return true;
+        }
+        return false;
       },
       _isAccountLinked: function(id){
         var ret;

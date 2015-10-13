@@ -18,10 +18,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+        @apply(--layout-vertical);
       }
       paper-material{
         margin: 8px 24px;
         padding: 16px 16px;
+        width: 350px;
+
       }
       span.dollar-sign{
         font-size: 1.5em;
@@ -31,24 +34,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <div class='layout horizontal'>
-      <span class='flex'></span>
-      <paper-material class='flex'>
+    <!-- <div class='layout horizontal self-center'> -->
+      <!-- <span class='flex'></span> -->
+      <paper-material class='flex self-center'>
         <paper-input id='itemName' label='Enter Item' value='uber'></paper-input>
       </paper-material>
-      <span class='flex'></span>
-    </div>
+      <!-- <span class='flex'></span> -->
+    <!-- </div> -->
 
-    <div class='layout horizontal'>
-      <span class='flex'></span>
-      <paper-material class='flex layout horizontal'>
-        <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span>
+    <!-- <div class='layout horizontal self-center'> -->
+      <!-- <span class='flex'></span> -->
+      <paper-material class='flex layout horizontal self-center'>
+        <div prefix class='self-center'>$</div>
+        <!-- <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span> -->
         <paper-input id='itemPrice' label='Enter Price' value='15'></paper-input>
       </paper-material>
-      <span class='flex'></span>
-    </div>
+      <!-- <span class='flex'></span> -->
+    <!-- </div> -->
 
-    <div class='layout horizontal'>
+    <!-- <div class='layout horizontal'>
       <span class='flex'></span>
       <paper-material class='flex layout horizontal'>
         <span>WANT</span>
@@ -58,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <span>NEED</span>
       </paper-material>
       <span class='flex'></span>
-    </div>
+    </div> -->
 
 
   </template>
@@ -80,8 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         elementName: { type: String,value: 'choice-input', notify: true}
       },
       onSliderChange: function(e){
-        console.log(e)
-        console.log(this.$.slider.value)
         var val = this.$.slider.value;
         if(val === 0 || val === 100){
           this.goToPage('next');

@@ -20,13 +20,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    */
 
 
-
+@font-face{
+  font-family: 'HongKongHustle';
+  src: url('hongkonghustle.ttf') format('truetype');
+}
 
   /* Application theme */
 
   :root {
     --dark-primary-color: #303F9F;
-    --default-primary-color: #3F51B5;
+    --default-primary-color: #cc333f;
     --light-primary-color: #C5CAE9;
     --text-primary-color: #ffffff; /*text/icons*/
     --accent-color: #FF4081;
@@ -100,6 +103,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     padding: 0 16px;
   }
 
+  .app-name{
+    font-family: HongKongHustle;
+    font-size: 40px;
+    font-weight: 300;
+  }
   paper-toolbar.tall .app-name {
     font-size: 40px;
     font-weight: 300;

@@ -46,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         location: { type: String, notify: true, computed: '_location(user,userInput)'},
         userInput: { type: Object, notify: true},
         user: { type: Object, notify: true},
-        dataRef: { type: Object, notify: true, observer: '_dataRefChanged'},
+        dataRef: { type: Object, notify: true},
         elementName: { type: String,value: 'choice-history', notify: true}
       },
       _location: function(user){

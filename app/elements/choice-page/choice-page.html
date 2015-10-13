@@ -31,19 +31,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 16px 16px;
       }
     </style>
-  <swipe-pages id='pages' selected='0'>
-<!--   <iron-pages id='pages' selected='0'> -->
-<!--     <swipe-page>Test</swipe-page> -->
-<!--     <swipe-page>Yeah</swipe-page> -->
-    <swipe-page  go-to-page='{{goToPage}}'>
-      <choice-input user-input='{{userInput}}'>
-      </choice-input>
+  <swipe-pages id='pages' selected='{{selected}}'>
+    <swipe-page >
+      <choice-input id='choiceInput'
+        user-input='{{userInput}}'
+        go-to-page='{{goToPage}}'></choice-input>
     </swipe-page>
     <swipe-page>
-      <choice-growth user-input='[[userInput]]' user='[[user]]'></choice-growth>
+      <choice-growth
+        user-input='[[userInput]]'
+        user='[[user]]'></choice-growth>
     </swipe-page>
     <swipe-page>
-      <choice-history user-input='[[userInput]]' user='[[user]]'>
+      <choice-history
+        user-input='[[userInput]]' 
+        user='[[user]]'>
       </choice-history>
     </swipe-page>
     <swipe-page>
@@ -52,7 +54,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <swipe-page>
       <choice-comparison></choice-comparison>
     </swipe-page>
-<!--   </iron-pages> -->
   </swipe-pages>
 
   </template>
@@ -71,17 +72,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
         user: {type: Object, notify: true},
         goToPage: {type: Object, notify: true},
         elementName: {type: String, value: 'choice-page', notify: true}
       },
+      _selectedChanged: function(selected, oldValue){
+        if(oldValue == 0){
+          this.$.choiceInput._setUserInput();
+        }
+      },
       _goToPage: function(str){
-        if(str === 'next'){
-          this.$.pages.selectNext();
-        }
-        if(str === 'prev'){
-          this.$.pages.selectPrevious();
-        }
+        this.$.pages._goToPage(str);
       },
       _prevPage: function(e){
         this.goToPage('prev')
