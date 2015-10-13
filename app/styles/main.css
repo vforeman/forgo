@@ -47,13 +47,13 @@ body {
     color: white;
 }
 
-.header #main-blurb {
+.header .header-backdrop-content #main-blurb {
     color: #FAFAFA;
     padding-top: 25%;
 }
 
 @media (max-width: 600px) {
-    .header-backdrop-title {
+    .header .header-backdrop-content .header-backdrop-title {
         font-size: 150%;
     }
 }
