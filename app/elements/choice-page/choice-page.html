@@ -40,11 +40,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <swipe-page>
       <choice-growth
         user-input='[[userInput]]'
-        user='[[user]]'></choice-growth>
+        user='[[user]]'
+        accounts='[[accounts]]'></choice-growth>
     </swipe-page>
     <swipe-page>
       <choice-history
-        user-input='[[userInput]]' 
+        user-input='[[userInput]]'
         user='[[user]]'>
       </choice-history>
     </swipe-page>
@@ -72,6 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners:{
       },
       properties: {
+        accounts: {type: Array, notify: true},
         selected: {type: String, value: 0, notify: true, observer: '_selectedChanged'},
         user: {type: Object, notify: true},
         goToPage: {type: Object, notify: true},

@@ -123,9 +123,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <settings-page data-route='settings' user='{{user}}' user-ref='{{userRef}}'></settings-page>
 
-            <accounts-page data-route='accounts' user='[[userRef]]'></accounts-page>
+            <accounts-page data-route='accounts' user='[[userRef]]' accounts='{{accounts}}'></accounts-page>
 
-            <choice-page data-route='choice' user='[[userRef]]'></choice-page>
+            <choice-page data-route='choice' user='[[userRef]]' accounts='[[accounts]]'></choice-page>
 
           </iron-pages>
         </div>

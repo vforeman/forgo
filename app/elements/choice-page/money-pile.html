@@ -17,7 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
         @apply(--layout-vertical);
-        margin: 32px 32px;
+        margin: 0px 32px;
+        margin-bottom: 32px;
       }
       #stack{
         height: 100px;
@@ -58,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * amount of money to add after initial startAmount
          * @type {Number}
          */
-        growth: { type: Number,value: 0, notify: true, observer: '_growthChanged'},
+        growth: { type: Number, notify: true, observer: '_growthChanged'},
         elementName: { type: String,value: 'money-pile', notify: true}
       },
       _startAmountChanged: function(startAmount){
