@@ -11,5 +11,8 @@
     "paper-elements": "PolymerElements/paper-elements#latest",
     "platinum-elements": "PolymerElements/platinum-elements#latest"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "polymer": "^1.0.0"
+  }
 }
