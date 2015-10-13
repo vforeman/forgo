@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="choice-history">
   <template>
@@ -21,11 +22,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-document id='doc'
       location='[[location]]'
       data='{{dataRef}}'></firebase-document>
-    <div>The total you spent on <span>{{userInput.itemName}}</span> is <span>{{total}}</span></div>
-    <template is='dom-repeat' items='{{purchaseHistory}}'>
-      sup
-      <span>{{item.date}}</span><span>{{item.price}}</span>
-    </template>
+    <!-- <div>Total Expenses for <span>{{userInput.itemName}}</span> is <span>{{total}}</span></div> -->
+    <paper-card heading="{{heading(userInput.itemName)}}">
+      <paper-card heading="Purchase #" class="layout horizontal" >
+        <div class="card-content">
+          <span>Purchase Date</span> 
+        </div>
+        <div class="card-actions">
+          <paper-button>Price</paper-button>
+        </div>
+      </paper-card>
+      <template is='dom-repeat' items='{{purchaseHistory}}'>
+              <paper-card heading="{{getPurchaseNumber(purchaseHistory, item)}}" class="layout horizontal" >
+                <span class='flex'></span>
+                <div class="card-content">
+                  <span>{{item.date}}</span> 
+                </div>
+                <div class="card-actions">
+                  <paper-button>$<span>{{item.price}}</span>.00</paper-button>
+                </div>
+              </paper-card>
+      </template>
+    </paper-card>
+    <paper-card>
+      <div class="card-content">
+        Total: $<span class="flex">{{total}}</span>.00
+      </div>
+    </paper-card>
   </template>
   <script>
   (function() {
@@ -48,6 +71,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         user: { type: Object, notify: true},
         dataRef: { type: Object, notify: true},
         elementName: { type: String,value: 'choice-history', notify: true}
+      },
+      heading: function(item) {
+        return "Total Expenses for " + item;
+      },
+      getPurchaseNumber: function(items, item){
+        //return the index
+        for (var i =0; i < items.length; i++){
+
+            if (items[i] == item) {
+              console.log('item', items[i], item, i);
+            return (i+1);
+          }
+        }
       },
       _location: function(user){
         var loc = 'https://forgo.firebaseio.com/purchases/' + user.uid;
