@@ -49,6 +49,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- <span class='self-center dollar-sign'>$&nbsp;&nbsp;</span> -->
         <paper-input id='itemPrice' label='Enter Price' value=''></paper-input>
       </paper-material>
+
+      <template is="dom-repeat" items="[[accounts]]">
+    <paper-material class="flex layout horizontal self-center">
+        <div class="fill-width">
+          <span class="span-left-align">{{item.nickname}}</span>
+          $<span class="span-right-align">{{item.balance}}</span>
+        </div>
+    </paper-material>
+      </template>
       <!-- <span class='flex'></span> -->
     <!-- </div> -->
 
@@ -81,7 +90,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       properties: {
         userInput: { type: Object, notify: true},
-        elementName: { type: String,value: 'choice-input', notify: true}
+        elementName: { type: String,value: 'choice-input', notify: true},
+        accounts: {type: Array, notify: true}
       },
       onSliderChange: function(e){
         var val = this.$.slider.value;
