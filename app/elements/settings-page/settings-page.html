@@ -129,7 +129,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           'address/city': formData.city,
           'address/state': formData.state,
           'address/zip': formData.zip,
-          'customerid': formData.customerid
+          'customerid': formData.customerid,
+          'uid': this.user.uid
         });
         this.toggleClass('unSaved', false, this.$.fab)
       },
