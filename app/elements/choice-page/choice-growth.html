@@ -26,6 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .card{
         margin: 16px 16px;
       }
+      
     </style>
       <iron-ajax id='ajax'
         url='{{endpoint}}'
@@ -119,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // console.log(acc)
           ret[acc.linkedTo] = {
             type: acc.linkedTo + ' Account',
-            price: '$'+ userInput.itemPrice / 3,
+            price: '$'+ Number(userInput.itemPrice / 3).toFixed(2),
             percentIncrease: (userInput.itemPrice / (userInput.itemPrice + Number(acc.balance)) * 100).toPrecision(3)
           }
         },this);
